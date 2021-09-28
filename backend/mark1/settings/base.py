@@ -39,9 +39,25 @@ INSTALLED_APPS = [
     "django_js_reverse",
     "webpack_loader",
     "import_export",
+
     "rest_framework",
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    "api",
     "common",
     "users",
+    "orders",
+    "customers",
+    "payments",
 ]
 
 MIDDLEWARE = [
@@ -98,15 +114,32 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+# rest-auth
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
+    'TOKEN_SERIALIZER': "users.serializers.TokenSerializer",
+
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 
 LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
+DATETIME_FORMAT = 'd-m-Y H:i:s'
+TIME_ZONE = "Asia/Ho_Chi_Minh"
 
 USE_I18N = True
 

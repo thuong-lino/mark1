@@ -9,6 +9,12 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     email = models.EmailField(max_length=255, unique=True)
+    firstname = models.CharField(max_length=20, default='')
+    lastname = models.CharField(max_length=20, default='')
+    DOB = models.DateField(verbose_name="Ngày Sinh", null=True)
+    address = models.CharField(max_length=255, null=True)
+    phone_number = models.CharField(max_length=12, default='')
+
     is_staff = models.BooleanField(
         default=False, help_text=_("Designates whether the user can log into this admin " "site.")
     )
