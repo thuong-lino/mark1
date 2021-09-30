@@ -23,7 +23,7 @@ urlpatterns = [
     path("jsreverse/", django_js_reverse.views.urls_js, name="js_reverse"),
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', obtain_jwt_token),
-    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/', include('rest_auth.urls'), name='rest_auth'),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
     path("api/", include(router.urls), name="api"),

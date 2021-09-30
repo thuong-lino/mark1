@@ -12,3 +12,9 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = ['order', 'paid_amount', 'total_amount', 'updated_at']
         ordering = ['updated_at']
+
+
+class WritePaymentSerializer(serializers.ModelSerializer):
+    class Meta():
+        model = Payment
+        fields = ['order', 'paid_amount']

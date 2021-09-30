@@ -7,3 +7,8 @@ from .models import Payment
 class PaymentView(ListCreateAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
+
+
+class UpdatePaymentView(APIView):
+    def patch(self, request):
+        pass

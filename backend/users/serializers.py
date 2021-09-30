@@ -4,12 +4,15 @@ from allauth.account.adapter import get_adapter
 from .models import User
 from rest_framework.authtoken.models import Token
 from django.db import transaction
+from datetime import timedelta, datetime
+from django.conf import settings
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'firstname', 'password', 'phone_number']
+        extra_kwargs = {"password": {"write_only": True}}
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -47,15 +50,22 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
+    payload = serializers.SerializerMethodField()
 
     class Meta:
         model = Token
-        fields = ('key', 'user', 'name')
+        fields = ('key', 'user', 'payload')
 
-    def get_name(self, obj):
+    def get_payload(self, obj):
+        # firstname
         serializer_data = UserSerializer(obj.user).data
         firstname = serializer_data.get('firstname')
+        # expiry_date
+        cookie_age = settings.SESSION_COOKIE_AGE
+        now = datetime.now()
+        expiry_date = (now + timedelta(seconds=cookie_age)
+                       ).strftime("%Y-%m-%d %H:%M:%S")
         return {
-            firstname,
+            "firstname": firstname,
+            "expiry_date": expiry_date,
         }
