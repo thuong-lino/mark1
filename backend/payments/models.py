@@ -11,14 +11,13 @@ class Payment(models.Model):
     paid_amount = models.DecimalField(
         default=0, max_digits=8, decimal_places=2)
     is_paid = models.BooleanField(default=False)
+    total_amount = models.DecimalField(
+        default=0, max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        self.total_amount = self.order.total - Decimal(self.paid_amount)
         if(self.paid_amount == self.order.total):
             self.is_paid = True
         super().save(*args, **kwargs)
-
-    @property
-    def total_amount(self):
-        return self.order.total - Decimal(self.paid_amount)

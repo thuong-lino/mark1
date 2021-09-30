@@ -23,16 +23,15 @@ class Order(models.Model):
     quantity = models.IntegerField()
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
+    total = models.DecimalField(
+        max_digits=8, decimal_places=2, default=0, editable=False)
     currency = models.CharField(max_length=3, default='USD')
     date_sent = models.DateTimeField()
     date_flight = models.DateTimeField(null=True, blank=True)
     date_received = models.DateTimeField(null=True, blank=True)
 
-    @property
-    def total(self):
-        return self.weight * self.unit_price
-
     def save(self, *args, **kwargs):
+        self.total = self.weight * self.unit_price
         from payments.models import Payment
         payment = Payment.objects.filter(order=self.id).first()
         if not payment:

@@ -20,4 +20,4 @@ sentry-sdk
 django-rest-auth
 django-rest-auth[with_social]
 django-allauth
-djangorestframework-jwt
+django-filter

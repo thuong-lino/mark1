@@ -1,13 +1,14 @@
 from rest_framework import status, response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView
 from .serializers import PaymentSerializer, UpdatePaymentSerializer
 from .models import Payment
 
 
-class PaymentView(ListCreateAPIView):
+class PaymentView(ListAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
+    filterset_fields = ['paid_amount']
 
 
 """
