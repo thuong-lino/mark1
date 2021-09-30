@@ -2,6 +2,7 @@ from django.db import models
 from users.models import User
 from customers.models import Customer
 from .utils import calculate_total
+from decimal import Decimal
 
 
 class Item(models.Model):
@@ -20,8 +21,8 @@ class Order(models.Model):
     item = models.ForeignKey(Item, related_name="order",
                              on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    weight = models.FloatField()
-    unit_price = models.FloatField()
+    weight = models.DecimalField(max_digits=5, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=8, decimal_places=2)
     currency = models.CharField(max_length=3, default='USD')
     date_sent = models.DateTimeField()
     date_flight = models.DateTimeField(null=True, blank=True)
@@ -34,9 +35,7 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         from payments.models import Payment
         payment = Payment.objects.filter(order=self.id).first()
-        print(payment)
         if not payment:
-            print("creat a payment")
             super().save(*args, **kwargs)
             p = Payment.objects.create(order_id=self.id)
             p.save()
