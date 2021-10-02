@@ -14,6 +14,7 @@ class Customer(models.Model):
                            verbose_name="Mã số thuế")
     DOB = models.DateField(verbose_name="Ngày Sinh", null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
+    makhachhang = models.CharField(max_length=5, default='131')
     last_transaction = models.DateTimeField(
         default=timezone.now, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -26,3 +27,9 @@ class Customer(models.Model):
 class API_KEY(models.Model):
     get_link = models.CharField(max_length=255)
     api_key = models.CharField(max_length=124)
+
+
+class CustomerTransaction(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)

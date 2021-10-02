@@ -34,13 +34,25 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         self.total = self.weight * self.unit_price
-        from payments.models import Payment
+        super().save(*args, **kwargs)
+        from payments.models import Payment, Transaction
+
+        qs_trans = Transaction.objects.filter(
+            customer=self.customer)
+        if not qs_trans.exists():
+            trans = Transaction.objects.create(
+                customer=self.customer, must_paid=self.total)
+            trans.save()
+        else:
+            trans = qs_trans.first()
+            trans.must_paid += self.total
+            trans.save()
+
         payment = Payment.objects.filter(order=self.id).first()
         if not payment:
-            super().save(*args, **kwargs)
-            p = Payment.objects.create(order_id=self.id)
+            p = Payment.objects.create(
+                order_id=self.id, needed_paid=self.total)
             p.save()
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.customer} - {self.item}"

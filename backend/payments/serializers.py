@@ -17,19 +17,19 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 
 class UpdatePaymentSerializer(serializers.ModelSerializer):
-    add_paid_amount = serializers.DecimalField(decimal_places=2, max_digits=8)
+    amount = serializers.DecimalField(decimal_places=2, max_digits=8)
 
     class Meta:
         model = Payment
-        fields = ['order', 'add_paid']
+        fields = ['order', 'amount']
 
     def validate(self, data):
-        add_paid_amount = data['add_paid_amount']
+        amount = data['amount']
         qs = Payment.objects.filter(
             order=data['order'])
         if qs.exists():
             total = qs.first().order.total
-            validate_paid_amount(add_paid_amount, total)
+            validate_paid_amount(amount, total)
         else:
             raise serializers.ValidationError({"msg": "Invalid Data"})
         return data
