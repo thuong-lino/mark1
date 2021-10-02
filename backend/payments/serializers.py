@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from orders.serializers import OrderSerializer
+from orders.serializers import ReadOrderSerializer
 from orders.models import Order
 from .models import Payment
 from .validators import validate_paid_amount
@@ -7,7 +7,7 @@ from .validators import validate_paid_amount
 
 class PaymentSerializer(serializers.ModelSerializer):
     needed_paid = serializers.ReadOnlyField()
-    order = OrderSerializer()
+    order = ReadOrderSerializer()
     updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:

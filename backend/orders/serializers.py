@@ -1,19 +1,29 @@
 from rest_framework import serializers
-from .models import Order, Item
+from .models import Order
 from users.serializers import UserSerializer
 from customers.serializers import CustomerSerializer
 
 
-class ItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Item
-        fields = ['name', 'unit']
+class StringSerializer(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        return value
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    item = ItemSerializer()
-    user = UserSerializer()
+class ReadOrderSerializer(serializers.ModelSerializer):
+    user = StringSerializer()
     customer = CustomerSerializer()
+    date_sent = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    date_flight = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", required=False)
+    date_received = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", required=False)
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+class WriteOrderSerializer(serializers.ModelSerializer):
     date_sent = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     date_flight = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", required=False)
