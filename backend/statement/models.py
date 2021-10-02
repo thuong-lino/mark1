@@ -12,6 +12,11 @@ class Period(models.Model):
     open_date = models.DateField(auto_now_add=True)
     close_date = models.DateField(null=True, blank=True)
     is_close = models.BooleanField(default=False)
+
+
+class Statement(models.Model):
+    period = models.ForeignKey(
+        Period, related_name="stament", on_delete=models.CASCADE)
     customer = models.ForeignKey(
         Customer, related_name='+', on_delete=models.SET_NULL, null=True)
     open_debit = models.DecimalField(
@@ -19,9 +24,9 @@ class Period(models.Model):
     open_credit = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True, default=0.00)
 
-    in_debit = models.DecimalField(
+    transaction_debit = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True, default=0.00)
-    in_credit = models.DecimalField(
+    transaction_credit = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, null=True, default=0.00)
 
     close_debit = models.DecimalField(

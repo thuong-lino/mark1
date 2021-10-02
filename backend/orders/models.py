@@ -3,6 +3,7 @@ from users.models import User
 from customers.models import Customer
 from .utils import calculate_total
 from decimal import Decimal
+from statement.models import Statement, Period
 
 
 class Item(models.Model):
@@ -14,6 +15,7 @@ class Item(models.Model):
 
 
 class Order(models.Model):
+    period = models.ForeignKey(Period, on_delete=models.CASCADE, blank=True)
     currency_choices = [("USD", "USD"), ("VND", "VND")]
     user = models.ForeignKey(User, related_name='order',
                              on_delete=models.CASCADE)
@@ -37,6 +39,7 @@ class Order(models.Model):
         super().save(*args, **kwargs)
         from payments.models import Payment, Transaction
 
+        # add transaction according to order
         qs_trans = Transaction.objects.filter(
             customer=self.customer)
         if not qs_trans.exists():
@@ -48,11 +51,14 @@ class Order(models.Model):
             trans.must_paid += self.total
             trans.save()
 
+        # add payment according to order
         payment = Payment.objects.filter(order=self.id).first()
         if not payment:
             p = Payment.objects.create(
                 order_id=self.id, needed_paid=self.total)
             p.save()
+
+        #qs_statement = Statement.objects.filter(customer=self.customer, period= self.period)
 
     def __str__(self):
         return f"{self.customer} - {self.item}"

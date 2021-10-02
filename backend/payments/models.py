@@ -4,12 +4,13 @@ from customers.models import Customer
 from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from statement.models import Period
 
 # Create your models here.
 
 
 class Payment(models.Model):
+    period = models.ForeignKey(Period, on_delete=models.CASCADE, blank=True)
     order = models.ForeignKey(
         Order, related_name='payment', on_delete=models.CASCADE)
     paid_amount = models.DecimalField(
