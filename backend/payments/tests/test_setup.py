@@ -1,5 +1,5 @@
 from rest_framework.test import APITestCase
-from model_bakery import baker
+from model_bakery import baker, seq
 from orders.serializers import OrderSerializer
 
 
@@ -12,6 +12,8 @@ class TestSetup(APITestCase):
             "order": 1,  # orderId
             "paid_amount": 1,
         }
+        cls.order = baker.make(
+            "orders.Order", weight=seq(1.00, increment_by=.50), unit_price=5, _quantity=10)
 
     def tearDown(self):
         super().tearDown()

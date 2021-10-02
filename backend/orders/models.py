@@ -14,6 +14,7 @@ class Item(models.Model):
 
 
 class Order(models.Model):
+    currency_choices = [("USD", "USD"), ("VND", "VND")]
     user = models.ForeignKey(User, related_name='order',
                              on_delete=models.CASCADE)
     customer = models.ForeignKey(
@@ -25,7 +26,8 @@ class Order(models.Model):
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(
         max_digits=8, decimal_places=2, default=0, editable=False)
-    currency = models.CharField(max_length=3, default='USD')
+    currency = models.CharField(
+        max_length=3, choices=currency_choices, default='USD')
     date_sent = models.DateTimeField()
     date_flight = models.DateTimeField(null=True, blank=True)
     date_received = models.DateTimeField(null=True, blank=True)

@@ -21,3 +21,8 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"{self.phone_number}-{self.firstname}"
+
+
+class API_KEY(models.Model):
+    get_link = models.CharField(max_length=255)
+    api_key = models.CharField(max_length=124)

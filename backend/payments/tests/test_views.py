@@ -19,11 +19,11 @@ class TestPayments(TestSetup):
 
     def test_admin_can_update_payment(self):
         self.client.force_login(self.admin)
-        order = baker.make("orders.Order", weight=5, unit_price=1)
         data = {
-            "order": order.pk,
+            "order": self.order[0].pk,
             "paid_amount": 2,
+            "add_paid": 2.00,
         }
         res = self.client.patch(reverse('update_payment'), data, format='json')
-        self.assertEqual(res.data['total_amount'], 3)
+        self.assertEqual(res.data['needed_paid'], 3)
         self.assertEqual(res.status_code, 200)
