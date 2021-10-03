@@ -21,16 +21,6 @@ class Payment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def add_paid(self, amount: Decimal):
-    #     if(amount > self.needed_paid):
-    #         raise ValidationError(_("Số tiền không hợp lệ"))
-    #     self.paid_amount += amount
-    #     self.needed_paid -= self.paid_amount
-    #     return self.needed_paid
-
-    # def set_paid_full(self):
-    #     self.is_paid = True
-
     def save(self, *args, **kwargs):
         self.needed_paid = self.order.total - Decimal(self.paid_amount)
         if(self.needed_paid == 0):

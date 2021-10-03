@@ -30,12 +30,5 @@ class Order(models.Model):
         self.total = self.weight * self.unit_price
         super().save(*args, **kwargs)
 
-        qs_statement = Statement.objects.filter(
-            customer=self.customer, period=self.period)
-        if not qs_statement.exists():
-            transaction = Statement.objects.create(
-                customer=self.customer, period=self.period, transaction_debit=self.total)
-            transaction.save()
-
     def __str__(self):
         return f"{self.customer} - {self.item}"
