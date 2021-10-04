@@ -12,6 +12,9 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 
 class CustomerTransactionSerializer(serializers.ModelSerializer):
+    amount = serializers.DecimalField(
+        min_value=0, max_digits=8, decimal_places=2)
+
     class Meta:
         model = CustomerTransaction
         fields = ['customer', 'amount']

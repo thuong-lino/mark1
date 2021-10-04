@@ -1,10 +1,11 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
 from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.models import Payment
 from statement.models import Statement
 from decimal import Decimal
+from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -35,7 +36,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             customer=customer, period=period)
         if not statement_qs.exists():
             statement = Statement.objects.create(
-                customer=customer, period=period, transaction_debit=amount)
+                customer_id=customer, period_id=period, transaction_debit=amount)
             statement.save()
         else:
             statement = statement_qs.first()
@@ -44,3 +45,22 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        customer_id = serializer.validated_data['customer'].id
+        self.perform_update(serializer)
+        # change payment value
+        recalculate_needed_paid(instance)
+        recalculate_transaction_debit(customer_id)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
