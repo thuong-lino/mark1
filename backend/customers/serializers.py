@@ -18,3 +18,11 @@ class CustomerTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerTransaction
         fields = ['customer', 'amount']
+
+
+class HistorySerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = CustomerTransaction
+        fields = ['amount', 'created_at']

@@ -27,5 +27,8 @@ class Payment(models.Model):
             self.is_paid = True
         super().save(*args, **kwargs)
 
+    def get_customer_id(self):
+        return self.order.customer.id
+
     def __str__(self) -> str:
         return f"{self.order_id} - {self.paid_amount} - {self.needed_paid} - {self.is_paid}"

@@ -18,7 +18,7 @@ def get_customer_debit(customer_id) -> Decimal:
     total = 0
     qs = Payment.objects.all()
     for q in qs:
-        if(q.order.customer.id == customer_id):
+        if(q.get_customer_id() == customer_id):
             total += q.needed_paid
     return total
 

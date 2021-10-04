@@ -1,7 +1,8 @@
 from rest_framework import viewsets, views, status
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from .serializers import CustomerSerializer, CustomerTransactionSerializer
-from .models import Customer
+from .serializers import CustomerSerializer, CustomerTransactionSerializer, HistorySerializer
+from .models import Customer, CustomerTransaction
 from statement.models import Statement, Period
 from rest_framework.permissions import IsAdminUser
 from decimal import Decimal
@@ -33,3 +34,9 @@ class AddTransactionView(views.APIView):
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HistoryView(ListAPIView):
+    serializer_class = HistorySerializer
+    queryset = CustomerTransaction.objects.all().order_by('-created_at')
+    permission_classes = [IsAdminUser]
