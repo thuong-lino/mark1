@@ -24,7 +24,7 @@ const LoginForm = () => (
           </Button>
         </Segment>
       </Form>
-      <Message>
+      <Message className="login_message">
         New to us? <a href='#'>Sign Up</a>
       </Message>
     </Grid.Column>
