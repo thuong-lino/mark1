@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
+from statement.models import Period
 from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.models import Payment
 from statement.models import Statement
@@ -23,7 +24,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         order_id = serializer.data['id']
         needed_paid = serializer.data['total']
         customer = serializer.data['customer']
-        period = serializer.data['period']
+        period = Period.objects.filter(is_close=False).first().id
         amount = Decimal(serializer.data['total'])
         # add payment according to order
         payment = Payment.objects.filter(order=order_id).first()

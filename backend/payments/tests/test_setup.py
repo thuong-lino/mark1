@@ -1,6 +1,5 @@
 from rest_framework.test import APITestCase
 from model_bakery import baker, seq
-from orders.serializers import OrderSerializer
 
 
 class TestSetup(APITestCase):

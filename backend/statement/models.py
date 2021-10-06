@@ -1,21 +1,22 @@
 from django.db import models
 from customers.models import Customer
-import datetime
 from decimal import Decimal
-
-
-def current_year():
-    return datetime.date.today().year
+from .utils import current_year, current_month
 
 
 class Period(models.Model):
     year = models.IntegerField(default=current_year)
+    month = models.IntegerField(default=current_month)
     open_date = models.DateField(auto_now_add=True)
     close_date = models.DateField(null=True, blank=True)
     is_close = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.year}"
+        if self.is_close == False:
+            state = "OPENED"
+        else:
+            state = "CLOSED"
+        return f"{self.month}/{self.year} {state}"
 
 
 class Statement(models.Model):
@@ -50,4 +51,7 @@ class Statement(models.Model):
         else:
             self.close_debit = 0
             self.close_credit = self.transaction_credit - self.transaction_debit
+        self.close_debit += self.open_debit
+        self.close_credit += self.open_credit
+
         super().save(*args, **kwargs)

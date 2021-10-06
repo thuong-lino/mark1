@@ -32,4 +32,5 @@ class WriteOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = ['user', 'customer', 'item', 'unit', 'quantity',
+                  'weight', 'unit_price', 'currency', 'date_sent', 'date_flight']
