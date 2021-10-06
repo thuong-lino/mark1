@@ -3,5 +3,5 @@ from model_bakery import baker, seq
 
 
 class TestSetup(APITestCase):
-    def testSetupTestData(cls):
+    def setupTestData(cls):
         cls.admin = baker.maker("users.User", is_staff=True)

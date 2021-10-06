@@ -8,17 +8,21 @@ from django.urls import reverse
 
 
 class TestView (TestSetup):
-    def test_cong_don_transaction_debit_and_khach_hang_tra_tien(self):
-        # self.client.force_login(self.admin)
-        # url = '/api/orders/'
-        # orders = Order.objects.all()
-        # for o in orders:
-        #     payload = WriteOrderSerializer(o).data
-        #     res = self.client.post(
-        #         url, payload, format='json')
-        #     self.assertEqual(res.status_code, 201)
-        # qs = Statement.objects.all()
-        # self.assertEqual(1, len(qs))
+    def test_cong_don_transaction_debit(self):
+        """
+        Setup 5 orders with 1 customer. Expected 1 statement
+        """
+        self.client.force_login(self.admin)
+        url = '/api/orders/'
+        orders = Order.objects.all()
+        for o in orders:
+            payload = WriteOrderSerializer(o).data
+            print(payload)
+            res = self.client.post(
+                url, payload, format='json')
+            self.assertEqual(res.status_code, 201)
+        qs = Statement.objects.all()
+        self.assertEqual(1, qs.count())
 
         # url = reverse("add_transaction")
         # data = {

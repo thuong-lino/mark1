@@ -1,15 +1,13 @@
 from model_bakery import baker
-from .test_setup import TestSetup
 from common.utils.tests import TestCaseUtils
 from datetime import datetime
-from statement.models import Period
+from ..serializers import WriteOrderSerializer
 
 
-class TestOrder(TestCaseUtils):
-    def test_add_new_order(self):
+class TestOrderSerializer(TestCaseUtils):
+    def test_write_serializer(self):
+        period = baker.make("statement.Period")
         customer = baker.make("customers.Customer")
-        period = baker.make("statement.Period", is_close=False)
-        Period.objects.create()
         order_data = {
             "customer": customer.id,
             "user": self.user.id,
@@ -22,6 +20,3 @@ class TestOrder(TestCaseUtils):
             "date_sent": datetime.now(),
             "period": period.id
         }
-        url = '/api/orders/'
-        res = self.auth_client.post(url, order_data, format='json')
-        self.assertEqual(res.status_code, 201)

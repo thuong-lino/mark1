@@ -16,3 +16,14 @@ def current_month():
 
 def now():
     return datetime.datetime.now()
+
+
+def find_period_is_open() -> int:
+    """
+    return the period is opening id
+    """
+    from .models import Period
+    print(Period.objects.all())
+    period = Period .objects.filter(is_close=False).first()
+    period_id = period.id
+    return period
