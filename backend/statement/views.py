@@ -4,7 +4,7 @@ from .models import Statement, Period
 from .serializers import PeriodSerializer, StatementSerializer
 from rest_framework.permissions import IsAdminUser
 
-from .utils import now
+from .utils import now, find_period_is_open
 # Create your views here.
 
 
@@ -36,12 +36,11 @@ class ClosePeriodView(views.APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request):
-        qs = Period.objects.filter(is_close=False)  # filter period is open
-        if qs.exists():
-            period = qs.first()
+        period = find_period_is_open()  # filter period is open
+        if period:
             statements = Statement.objects.filter(period=period)
             period.is_close = True
-            period.close_date = now
+            period.close_date = now()
             period.save()
             new_period = Period(is_close=False)
             new_period.save()

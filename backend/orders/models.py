@@ -22,9 +22,9 @@ class Order(models.Model):
         max_digits=8, decimal_places=2, default=0, editable=False)
     currency = models.CharField(
         max_length=3, choices=currency_choices, default='USD')
-    date_sent = models.DateTimeField()
-    date_flight = models.DateTimeField(null=True, blank=True)
-    date_received = models.DateTimeField(null=True, blank=True)
+    date_sent = models.DateField()
+    date_flight = models.DateField(null=True, blank=True)
+    date_received = models.DateField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.total = self.weight * self.unit_price

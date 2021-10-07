@@ -22,7 +22,8 @@ class AddTransactionView(views.APIView):
         serializer = CustomerTransactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            customer = serializer.data['customer']
+            print(serializer.validated_data)
+            customer_id = serializer.data['customer_id']
             amount = serializer.data["amount"]
             currency = serializer.data['currency']
             base_amount = actions.currency_to_USD(currency, amount)
@@ -31,7 +32,7 @@ class AddTransactionView(views.APIView):
             if peridod_qs.exists():
                 period = peridod_qs.first()
                 statement = Statement.objects.filter(
-                    period_id=period, customer_id=customer).first()
+                    period_id=period, customer_id=customer_id).first()
                 statement.transaction_credit += base_amount
                 statement.save()
 

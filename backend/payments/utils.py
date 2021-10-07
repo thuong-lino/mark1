@@ -2,6 +2,7 @@ from orders.models import Order
 from .models import Payment
 from decimal import Decimal
 from statement.models import Statement
+from statement.utils import find_period_is_open
 
 
 def recalculate_needed_paid(order: Order):
@@ -20,7 +21,8 @@ def get_customer_debit(customer_id) -> Decimal:
 
 
 def recalculate_transaction_debit(customer_id: int):
-    transaction = Statement.objects.get(customer_id=customer_id)
+    transaction = Statement.objects.get(
+        customer_id=customer_id, period=find_period_is_open())
     total = get_customer_debit(customer_id)
     transaction.transaction_debit = total
     transaction.save()

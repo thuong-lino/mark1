@@ -14,10 +14,11 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CustomerTransactionSerializer(serializers.ModelSerializer):
     amount = serializers.DecimalField(
         min_value=0, max_digits=15, decimal_places=2)
+    customer_id = serializers.IntegerField()
 
     class Meta:
         model = CustomerTransaction
-        fields = ['customer', 'amount', 'currency']
+        fields = ['customer_id', 'amount', 'currency']
 
 
 class HistorySerializer(serializers.ModelSerializer):

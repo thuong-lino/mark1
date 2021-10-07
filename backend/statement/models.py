@@ -2,6 +2,7 @@ from django.db import models
 from customers.models import Customer
 from decimal import Decimal
 from .utils import current_year, current_month
+import math
 
 
 class Period(models.Model):
@@ -43,15 +44,15 @@ class Statement(models.Model):
         return f"{self.period} - {self.customer}"
 
     def save(self, *args, **kwargs):
-        if (self.transaction_debit > self.transaction_credit):
+        balance = self.open_debit + self.transaction_debit - \
+            (self.open_credit + self.transaction_credit)
+        if balance > 0:
+            self.close_debit = balance
             self.close_credit = 0
-            self.close_debit = self.transaction_debit + \
-                self.open_debit - self.transaction_credit
-        elif (self.transaction_debit == self.transaction_credit):
-            pass
-        else:
+        elif balance < 0:
             self.close_debit = 0
-            self.close_credit = self.transaction_credit + \
-                self.open_credit - self.transaction_debit
+            self.close_credit = abs(balance)
+        else:
+            self.close_debit = self.close_credit = 0
 
         super().save(*args, **kwargs)

@@ -41,21 +41,22 @@ class OrderViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        order_id = serializer.data['id']
-        needed_paid = serializer.data['total']
-        customer = serializer.data['customer']
-        amount = Decimal(serializer.data['total'])
-        period = find_period_is_open()
+        order = serializer.create(request)
+        if not order:
+            return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+        needed_paid = order.total
+        customer = order.customer
+        amount = order.total
+        period = order.period
 
         # add payment according to order
-        Payment.objects.create(order_id=order_id, needed_paid=needed_paid)
+        Payment.objects.create(order=order, needed_paid=needed_paid)
 
         statement_qs = Statement.objects.filter(
             customer=customer, period=period)
         if not statement_qs.exists():
             statement = Statement.objects.create(
-                customer_id=customer, period=period, transaction_debit=amount)
+                customer=customer, period=period, transaction_debit=amount)
             statement.save()
         else:
             statement = statement_qs.first()

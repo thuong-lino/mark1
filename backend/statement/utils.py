@@ -23,5 +23,8 @@ def find_period_is_open():
     return the period is opening id
     """
     from .models import Period
-    period = Period .objects.filter(is_close=False).first()
-    return period
+    qs = Period .objects.filter(is_close=False)
+    if qs.exists():
+        period = qs.first()
+        return period
+    return None
