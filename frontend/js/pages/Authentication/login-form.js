@@ -1,34 +1,41 @@
+import { Button, Col, Container, Form, Row} from 'react-bootstrap'
 import React from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import logo from '../../../assets/images/user.png';
+import uiImage from '../../../assets/images/ui.svg'
 import './style.css'
 
-const LoginForm = () => (
-  <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-    <Grid.Column style={{ maxWidth: 450 }}>
-      <Header className="login_header" as='h2' color='teal' textAlign='center'>
-        <Image src='https://react.semantic-ui.com/logo.png' className="ui image"/> Log-in to your account
-      </Header>
-      <Form className="login_form" size='large' >
-        <Segment stacked>
-          <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-          <Form.Input
-            fluid
-            icon='lock'
-            iconPosition='left'
-            placeholder='Password'
-            type='password'
-          />
+const Login = () => {
+  return (
+    <>
+        <Container className="mt-5">
+            <Row>
+              
+                <Col lg={4} md={6} sm={12} className="text-center mt-5 p-3">
+                  <img className="icon-img" src={logo} alt="icon"/>
+                <Form className="form">
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                          <Form.Control type="email" placeholder="Enter email" />
+                        </Form.Group>
 
-          <Button color='teal' fluid size='large'>
-            Login
-          </Button>
-        </Segment>
-      </Form>
-      <Message className="login_message">
-        New to us? <a href='#'>Sign Up</a>
-      </Message>
-    </Grid.Column>
-  </Grid>
-)
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                           <Form.Control type="password" placeholder="Password" />
+                        </Form.Group>
+                        
+                        <Button variant="primary btn-block" type="submit">Login</Button>
+                <div className="text-left mt-3">
+                  <a href="#"><small className="Signup">Sign up</small></a>
+                </div>
+                
+                </Form>
+                  </Col> 
+                <Col lg={8} md={6} sm={12}> 
+                  <img className="w-100"  src={uiImage} alt=""/>
+                </Col>
+                
+            </Row>
+        </Container>
+    </>
+  )
+}
 
-export default LoginForm
+export default Login
