@@ -1,6 +1,6 @@
 import { Button, Col, Container, Form, Row} from 'react-bootstrap'
 import React from 'react'
-import logo from '../../../assets/images/user.png';
+import logo from '../../../assets/images/profile-user.png';
 import uiImage from '../../../assets/images/ui.svg'
 import './style.css'
 
