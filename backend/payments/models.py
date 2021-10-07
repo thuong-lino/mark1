@@ -32,3 +32,11 @@ class Payment(models.Model):
 
     def __str__(self) -> str:
         return f"{self.order_id} - {self.paid_amount} - {self.needed_paid} - {self.is_paid}"
+
+
+class CurrencyRates(models.Model):
+    currency = models.CharField(max_length=3)
+    rate = models.DecimalField(decimal_places=4, max_digits=12)
+
+    def __str__(self):
+        return f"{self.currency} - {self.rate}"

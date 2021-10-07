@@ -45,13 +45,13 @@ class Statement(models.Model):
     def save(self, *args, **kwargs):
         if (self.transaction_debit > self.transaction_credit):
             self.close_credit = 0
-            self.close_debit = self.transaction_debit - self.transaction_credit
+            self.close_debit = self.transaction_debit + \
+                self.open_debit - self.transaction_credit
         elif (self.transaction_debit == self.transaction_credit):
             pass
         else:
             self.close_debit = 0
-            self.close_credit = self.transaction_credit - self.transaction_debit
-        self.close_debit += self.open_debit
-        self.close_credit += self.open_credit
+            self.close_credit = self.transaction_credit + \
+                self.open_credit - self.transaction_debit
 
         super().save(*args, **kwargs)

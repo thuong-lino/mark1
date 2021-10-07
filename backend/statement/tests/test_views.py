@@ -17,7 +17,6 @@ class TestView (TestSetup):
         orders = Order.objects.all()
         for o in orders:
             payload = WriteOrderSerializer(o).data
-            print(payload)
             res = self.client.post(
                 url, payload, format='json')
             self.assertEqual(res.status_code, 201)

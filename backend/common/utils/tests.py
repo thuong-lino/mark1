@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from model_bakery import baker
+from model_bakery import baker, seq
 
 
 class TestCaseUtils(TestCase):
@@ -12,7 +12,17 @@ class TestCaseUtils(TestCase):
         self.user.save()
 
         self.auth_client = Client()
-        self.auth_client.login(email=self.user.email, password=self._user_password)
+        self.auth_client.login(email=self.user.email,
+                               password=self._user_password)
+
+        self.admin = baker.prepare(
+            "users.User", email="admin@email.com", is_staff=True)
+        self.admin.set_password(self._user_password)
+        self.admin.save()
+
+        self.admin_user = Client()
+        self.admin_user.login(email=self.admin.email,
+                              password=self._user_password)
 
     def reverse(self, name, *args, **kwargs):
         """ Reverse a url, convenience to avoid having to import reverse in tests """
@@ -49,6 +59,22 @@ class TestCaseUtils(TestCase):
     def assertResponse404(self, response):
         """ Given response has status_code 404 NOT FOUND"""
         self.assertEqual(response.status_code, 404)
+
+    def prepare_customers(self, quantity=1):
+        customers = baker.make("customers.Customer",
+                               phone_number=seq("0123xxx", 1), firstname=seq("khach_hang_", 1), _quantity=quantity)
+        return customers
+
+    def customer_add_orders(self, quantity, customer):
+        period = baker.make("statement.Period")
+        orders = baker.make(
+            "orders.Order", weight=seq(1.00, increment_by=.50), unit_price=5,
+            _quantity=quantity, period=period, customer=customer)
+        return orders
+
+    def prepare_all(self, order_quantity=10, *args, **kwargs):
+
+        self.prepare_orders(order_quantity)
 
 
 class TestGetRequiresAuthenticatedUser:

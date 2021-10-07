@@ -52,7 +52,6 @@ class ClosePeriodView(views.APIView):
                 new_statement = Statement(
                     period=new_period, open_debit=new_debit, open_credit=new_credit, customer=customer)
                 new_statement.save()
-                print(new_statement)
 
             return response.Response({"msg": "Success"}, status=status.HTTP_201_CREATED)
         return response.Response({"error": "Không thực hiện được yêu cầu."}, status=status.HTTP_400_BAD_REQUEST)

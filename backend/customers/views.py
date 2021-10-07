@@ -5,7 +5,7 @@ from .serializers import CustomerSerializer, CustomerTransactionSerializer, Hist
 from .models import Customer, CustomerTransaction
 from statement.models import Statement, Period
 from rest_framework.permissions import IsAdminUser
-from decimal import Decimal
+from common.utils import actions
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -24,12 +24,15 @@ class AddTransactionView(views.APIView):
             serializer.save()
             customer = serializer.data['customer']
             amount = serializer.data["amount"]
+            currency = serializer.data['currency']
+            base_amount = actions.currency_to_USD(currency, amount)
+            #base_amount = amount
             peridod_qs = Period.objects.filter(is_close=False)
             if peridod_qs.exists():
                 period = peridod_qs.first()
                 statement = Statement.objects.filter(
                     period_id=period, customer_id=customer).first()
-                statement.transaction_credit += Decimal(amount)
+                statement.transaction_credit += base_amount
                 statement.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -27,9 +27,11 @@ class Customer(models.Model):
 class API_KEY(models.Model):
     get_link = models.CharField(max_length=255)
     api_key = models.CharField(max_length=124)
+    title = models.CharField(max_length=20, default='')
 
 
 class CustomerTransaction(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
+    currency = models.CharField(max_length=3, default="USD")

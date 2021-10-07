@@ -4,10 +4,6 @@ from decimal import Decimal
 from statement.models import Statement
 
 
-def push_payment_history(order, amount):
-    pass
-
-
 def recalculate_needed_paid(order: Order):
     payment = Payment.objects.get(order_id=order.id)
     payment.needed_paid = order.weight * order.unit_price

@@ -39,7 +39,6 @@ class CustomRegisterSerializer(RegisterSerializer):
     def save(self, request):
         adapter = get_adapter()
         user = adapter.new_user(request)
-        print(user)
         self.cleaned_data = self.get_cleaned_data()
         user.firstname = self.cleaned_data.get('firstname')
         user.lastname = self.cleaned_data.get('lastname')

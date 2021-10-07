@@ -1,12 +1,12 @@
-from rest_framework import viewsets, status, views
+from decimal import Decimal
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Order
-from statement.models import Period
-from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.models import Payment
 from statement.models import Statement
-from decimal import Decimal
+from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
+from statement.utils import find_period_is_open
 a = """
                                   _
                                _ooOoo_
@@ -45,20 +45,17 @@ class OrderViewSet(viewsets.ModelViewSet):
         order_id = serializer.data['id']
         needed_paid = serializer.data['total']
         customer = serializer.data['customer']
-        period = Period.objects.filter(is_close=False).first().id
         amount = Decimal(serializer.data['total'])
+        period = find_period_is_open()
+
         # add payment according to order
-        payment = Payment.objects.filter(order=order_id).first()
-        if not payment:
-            p = Payment.objects.create(
-                order_id=order_id, needed_paid=needed_paid)
-            p.save()
+        Payment.objects.create(order_id=order_id, needed_paid=needed_paid)
 
         statement_qs = Statement.objects.filter(
             customer=customer, period=period)
         if not statement_qs.exists():
             statement = Statement.objects.create(
-                customer_id=customer, period_id=period, transaction_debit=amount)
+                customer_id=customer, period=period, transaction_debit=amount)
             statement.save()
         else:
             statement = statement_qs.first()
