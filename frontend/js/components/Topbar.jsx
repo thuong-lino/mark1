@@ -1,5 +1,4 @@
 import React from 'react';
-import './topbar.css';
 import { NotificationsNone, Settings, ExitToApp } from '@material-ui/icons';
 export default function Topbar() {
   return (

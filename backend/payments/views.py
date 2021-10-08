@@ -9,5 +9,5 @@ from decimal import Decimal
 
 class PaymentView(ListAPIView):
     serializer_class = PaymentSerializer
-    queryset = Payment.objects.all()
+    queryset = Payment.objects.all().order_by('-created_at')
     filterset_fields = ['paid_amount']

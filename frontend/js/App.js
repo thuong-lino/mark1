@@ -6,6 +6,7 @@ import BaseRouter from './routes/index';
 import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './store';
 import SentryBoundary from './utils/SentryBoundary';
+import '../css/global.css';
 
 const store = configureStore({});
 class App extends React.Component {

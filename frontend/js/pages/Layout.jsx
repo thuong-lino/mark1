@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import Sidebar from '../components/sidebar/Sidebar';
-import Topbar from '../components/topbar/Topbar';
-import './layout.css';
+import Sidebar from '../components/Sidebar';
+import Topbar from '../components/Topbar';
+import { connect } from 'react-redux';
+import { creators } from '../store/customers';
 
-export default class Layout extends Component {
+class Layout extends Component {
   constructor(props) {
     super(props);
 
     this.state = {};
   }
-
+  componentDidMount() {
+    const { getCustomers } = this.props;
+    getCustomers();
+  }
   render() {
     return (
       <div>
@@ -22,3 +26,16 @@ export default class Layout extends Component {
     );
   }
 }
+const mstp = (state) => {
+  return {
+    customers: state.customers.customers,
+  };
+};
+const mdtp = (dispatch) => {
+  return {
+    getCustomers: () => {
+      dispatch(creators.getCustomers());
+    },
+  };
+};
+export default connect(mstp, mdtp)(Layout);
