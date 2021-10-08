@@ -1,12 +1,11 @@
-from decimal import Decimal
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from common.utils.actions import currency_to_USD
 from .models import Order
 from payments.models import Payment
 from statement.models import Statement
 from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
-from statement.utils import find_period_is_open
 a = """
                                   _
                                _ooOoo_
@@ -44,13 +43,14 @@ class OrderViewSet(viewsets.ModelViewSet):
         order = serializer.create(request)
         if not order:
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
-        needed_paid = order.total
         customer = order.customer
         amount = order.total
+        currency = order.currency
         period = order.period
-
+        if currency != "USD":
+            amount = currency_to_USD(currency, amount)
         # add payment according to order
-        Payment.objects.create(order=order, needed_paid=needed_paid)
+        Payment.objects.create(order=order, needed_paid=amount)
 
         statement_qs = Statement.objects.filter(
             customer=customer, period=period)
@@ -72,7 +72,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(
             instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        customer_id = serializer.validated_data['customer'].id
+        customer_id = serializer.validated_data['customer_id']
         self.perform_update(serializer)
         # change payment value
         recalculate_needed_paid(instance)
