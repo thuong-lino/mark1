@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django_js_reverse",
     "webpack_loader",
     "import_export",
+    "django_filters",
 
     "rest_framework",
     'rest_framework.authtoken',
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     "orders",
     "customers",
     "payments",
+    "statement",
 ]
 
 MIDDLEWARE = [
@@ -119,6 +121,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
 }
 # rest-auth
 REST_AUTH_SERIALIZERS = {

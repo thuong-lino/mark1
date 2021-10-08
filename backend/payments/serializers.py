@@ -1,20 +1,35 @@
 from rest_framework import serializers
+from orders.serializers import ReadOrderSerializer
+from orders.models import Order
 from .models import Payment
-from orders.serializers import OrderSerializer
+from .validators import validate_paid_amount
 
 
 class PaymentSerializer(serializers.ModelSerializer):
-    total_amount = serializers.ReadOnlyField()
-    order = OrderSerializer()
+    needed_paid = serializers.ReadOnlyField()
+    order = ReadOrderSerializer()
     updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Payment
-        fields = ['order', 'paid_amount', 'total_amount', 'updated_at']
+        fields = ['order', 'paid_amount', 'needed_paid', 'updated_at']
         ordering = ['updated_at']
 
 
-class WritePaymentSerializer(serializers.ModelSerializer):
-    class Meta():
+class UpdatePaymentSerializer(serializers.ModelSerializer):
+    amount = serializers.DecimalField(decimal_places=2, max_digits=8)
+
+    class Meta:
         model = Payment
-        fields = ['order', 'paid_amount']
+        fields = ['order', 'amount']
+
+    def validate(self, data):
+        amount = data['amount']
+        qs = Payment.objects.filter(
+            order=data['order'])
+        if qs.exists():
+            total = qs.first().order.total
+            validate_paid_amount(amount, total)
+        else:
+            raise serializers.ValidationError({"msg": "Invalid Data"})
+        return data

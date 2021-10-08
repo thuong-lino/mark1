@@ -1,45 +1,33 @@
 from django.db import models
 from users.models import User
 from customers.models import Customer
-from .utils import calculate_total
-
-
-class Item(models.Model):
-    name = models.CharField(max_length=50, verbose_name="Loại hàng hóa")
-    unit = models.CharField(max_length=10, verbose_name="Đơn vị tính")
-
-    def __str__(self):
-        return self.name
+import datetime
+from decimal import Decimal
+from statement.models import Statement, Period
 
 
 class Order(models.Model):
+    period = models.ForeignKey(Period, on_delete=models.CASCADE)
+    currency_choices = [("USD", "USD"), ("VND", "VND")]
     user = models.ForeignKey(User, related_name='order',
                              on_delete=models.CASCADE)
     customer = models.ForeignKey(
         Customer, related_name="order", on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, related_name="order",
-                             on_delete=models.CASCADE)
+    item = models.CharField(max_length=50, default="")
+    unit = models.CharField(max_length=10, default="")
     quantity = models.IntegerField()
-    weight = models.FloatField()
-    unit_price = models.FloatField()
-    currency = models.CharField(max_length=3, default='USD')
+    weight = models.DecimalField(max_digits=5, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=8, decimal_places=2)
+    total = models.DecimalField(
+        max_digits=8, decimal_places=2, default=0, editable=False)
+    currency = models.CharField(
+        max_length=3, choices=currency_choices, default='USD')
     date_sent = models.DateTimeField()
     date_flight = models.DateTimeField(null=True, blank=True)
     date_received = models.DateTimeField(null=True, blank=True)
 
-    @property
-    def total(self):
-        return self.weight * self.unit_price
-
     def save(self, *args, **kwargs):
-        from payments.models import Payment
-        payment = Payment.objects.filter(order=self.id).first()
-        print(payment)
-        if not payment:
-            print("creat a payment")
-            super().save(*args, **kwargs)
-            p = Payment.objects.create(order_id=self.id)
-            p.save()
+        self.total = self.weight * self.unit_price
         super().save(*args, **kwargs)
 
     def __str__(self):
