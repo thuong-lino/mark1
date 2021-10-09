@@ -4,6 +4,10 @@ const types = {
   GET_CUSTOMERS_START: 'GET_CUSTOMERS_START',
   GET_CUSTOMERS_SUCCESS: 'GET_CUSTOMERS_SUCCESS',
   GET_CUSTOMERS_FAIL: 'GET_CUSTOMERS_FAIL',
+
+  GET_TRANSACTIONS_START: 'GET_TRANSACTIONS_START',
+  GET_TRANSACTIONS_SUCCESS: 'GET_TRANSACTIONS_SUCCESS',
+  GET_TRANSACTIONS_FAIL: 'GET_TRANSACTIONS_FAIL',
 };
 
 export const creators = {
@@ -19,10 +23,22 @@ export const creators = {
       }
     };
   },
+  getTransactions: () => {
+    return async (dispatch) => {
+      dispatch({ type: types.GET_TRANSACTIONS_START });
+      try {
+        const res = await api.get('/api/customers/history/');
+        dispatch({ type: types.GET_TRANSACTIONS_SUCCESS, transactions: res.data });
+      } catch (error) {
+        dispatch({ type: types.GET_TRANSACTIONS_FAIL });
+      }
+    };
+  },
 };
 
 const initialState = {
   customers: null,
+  transactions: null,
   loading: false,
   error: null,
 };
@@ -38,6 +54,12 @@ export const customersReducer = (state = initialState, action) => {
       return dispatchStart(state, action);
     case types.GET_CUSTOMERS_SUCCESS:
       return updateObject(state, { customers: action.customers });
+    case types.GET_CUSTOMERS_FAIL:
+      return dispatchFail(state, action);
+    case types.GET_CUSTOMERS_START:
+      return dispatchStart(state, action);
+    case types.GET_TRANSACTIONS_SUCCESS:
+      return updateObject(state, { transactions: action.transactions });
     case types.GET_CUSTOMERS_FAIL:
       return dispatchFail(state, action);
     default:

@@ -3,6 +3,7 @@ import Topbar from '../components/Topbar';
 import { connect } from 'react-redux';
 import { creators } from '../store/customers';
 import { creators as c2 } from '../store/orders';
+import { creators as s_creators } from '../store/statements';
 import { Link } from 'react-router-dom';
 
 import './layout.css';
@@ -17,6 +18,8 @@ class Layout extends Component {
     const { getCustomers } = this.props;
     getCustomers();
     this.props.getOrders();
+    this.props.getTransactions();
+    this.props.getStatements();
   }
   render() {
     const { pathname } = this.props;
@@ -33,10 +36,14 @@ class Layout extends Component {
                     <li className="sidebarListItem">
                       <LineStyle className="sidebarIcon" /> Biểu đồ
                     </li>
-                    <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" />
-                      Tổng hợp công nợ
-                    </li>
+                    <Link to="/statements/" className="link">
+                      <li
+                        className={`sidebarListItem ${pathname == '/statements/' ? 'active' : ''}`}
+                      >
+                        <LineStyle className="sidebarIcon" />
+                        Tổng hợp công nợ
+                      </li>
+                    </Link>
                     <Link to="/daily/" className="link">
                       <li className={`sidebarListItem ${pathname == '/daily/' ? 'active' : ''}`}>
                         <LineStyle className="sidebarIcon" />
@@ -94,8 +101,14 @@ const mdtp = (dispatch) => {
     getCustomers: () => {
       dispatch(creators.getCustomers());
     },
-    getOrders: () => {
-      dispatch(c2.getOrders());
+    getTransactions: () => {
+      dispatch(creators.getTransactions());
+    },
+    getOrders: (period = null) => {
+      dispatch(c2.getOrders(period));
+    },
+    getStatements: (period = null) => {
+      dispatch(s_creators.getStatements(period));
     },
   };
 };

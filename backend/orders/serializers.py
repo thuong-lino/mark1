@@ -7,6 +7,7 @@ from users.serializers import UserSerializer
 from customers.serializers import CustomerSerializer
 from statement.utils import find_period_is_open
 from statement.models import Period
+from common.utils.actions import currency_to_USD
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -35,6 +36,8 @@ class WriteOrderSerializer(serializers.ModelSerializer):
     def create(self, request):
         data = request.data
         data["period"] = find_period_is_open()
+        currency = data['currency']
+        data['unit_price'] = currency_to_USD(currency, data['unit_price'])
         try:
             order = Order.objects.create(**data)
             return order

@@ -6,5 +6,6 @@ app_name = 'common'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('login/',  views.IndexView.as_view(), name='login'),
-    path('daily/', views.IndexView.as_view())
+    path('daily/', views.IndexView.as_view()),
+    path('statements/', views.IndexView.as_view()),
 ]

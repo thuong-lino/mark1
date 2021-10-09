@@ -1,6 +1,5 @@
 import React from 'react';
 import { NotificationsNone, Settings, ExitToApp } from '@material-ui/icons';
-import './topbar.css';
 import { Link } from 'react-router-dom';
 import api from '../store/api';
 

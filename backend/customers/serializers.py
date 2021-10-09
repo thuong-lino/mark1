@@ -33,4 +33,4 @@ class HistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomerTransaction
-        fields = ['customer', 'amount', 'created_at']
+        fields = ['id', 'customer', 'amount', 'created_at']

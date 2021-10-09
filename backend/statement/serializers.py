@@ -3,6 +3,9 @@ from rest_framework import serializers
 
 
 class StatementSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField()
+    period = serializers.StringRelatedField()
+
     class Meta:
         model = Statement
         fields = "__all__"

@@ -8,11 +8,11 @@ const types = {
 };
 
 export const creators = {
-  getOrders: () => {
+  getOrders: (period) => {
     return async (dispatch) => {
       dispatch({ type: types.GET_ORDERS_START });
       try {
-        const res = await api.get('/api/orders/');
+        const res = await api.get(`/api/orders/?period=${period}`);
         dispatch({ type: types.GET_ORDERS_SUCCESS, orders: res.data });
       } catch (error) {
         dispatch({ type: types.GET_ORDERS_FAIL });

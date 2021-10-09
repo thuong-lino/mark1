@@ -1,6 +1,8 @@
-import * as React from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
+import { useSelector, useDispatch } from 'react-redux';
+import { creators } from '../store/orders';
+
 const columns = [
   { field: 'id', headerName: 'ID', width: 70, sortable: false },
   {
@@ -14,13 +16,11 @@ const columns = [
     field: 'item',
     headerName: 'Tên hàng',
     width: 100,
-    editable: true,
   },
   {
     field: 'unit',
     headerName: 'ĐVT',
     width: 100,
-    editable: true,
   },
   {
     field: 'quantity',
@@ -31,41 +31,37 @@ const columns = [
     field: 'weight',
     headerName: 'Kg',
     width: 100,
-    editable: true,
   },
   {
     field: 'unit_price',
     headerName: 'Đơn giá',
     width: 120,
-    editable: true,
   },
   {
     field: 'total',
     headerName: 'Thành tiền',
     width: 150,
-    editable: true,
   },
   {
     field: 'date_sent',
     headerName: 'Ngày gửi',
     width: 150,
-    editable: true,
   },
   {
     field: 'date_flight',
     headerName: 'Ngày bay',
     width: 120,
-    editable: true,
   },
   {
     field: 'date_received',
     headerName: 'Ngày đến',
     width: 150,
-    editable: true,
   },
 ];
 
 export default function OrderTable() {
+  //cxonst [orders, setOrders] = useState(null)
+
   let orders = useSelector((state) => state.orders.orders);
   return (
     <div style={{ height: 600, width: '100%' }}>
@@ -75,8 +71,17 @@ export default function OrderTable() {
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
-          checkboxSelection
           disableSelectionOnClick
+          ocaleText={{
+            toolbarDensity: 'Size',
+            toolbarDensityLabel: 'Size',
+            toolbarDensityCompact: 'Small',
+            toolbarDensityStandard: 'Medium',
+            toolbarDensityComfortable: 'Large',
+          }}
+          components={{
+            Toolbar: GridToolbar,
+          }}
         />
       ) : null}
     </div>

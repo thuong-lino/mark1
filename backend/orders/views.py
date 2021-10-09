@@ -1,6 +1,5 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from common.utils.actions import currency_to_USD
 from .models import Order
 from payments.models import Payment
 from statement.models import Statement
@@ -35,9 +34,9 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = Order.objects.filter(
-            period=find_period_is_open()).order_by("date_sent")
+            period=find_period_is_open()).order_by("-date_sent")
         period_id = self.request.query_params.get("period", None)
-        if period_id != None:
+        if period_id != None and period_id != "null":
             query_set = Order.objects.filter(
                 period_id=period_id).order_by("date_sent")
 
@@ -56,10 +55,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
         customer = order.customer
         amount = order.total
-        currency = order.currency
         period = order.period
-        if currency != "USD":
-            amount = currency_to_USD(currency, amount)
         # add payment according to order
         Payment.objects.create(order=order, needed_paid=amount)
 
