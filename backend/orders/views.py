@@ -6,7 +6,8 @@ from payments.models import Payment
 from statement.models import Statement
 from .serializers import ReadOrderSerializer, WriteOrderSerializer
 from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
-a = """
+from statement.utils import find_period_is_open
+buddha = """
                                   _
                                _ooOoo_
                               o8888888o
@@ -30,7 +31,17 @@ a = """
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
+    pagination_class = None
+
+    def get_queryset(self):
+        query_set = Order.objects.filter(
+            period=find_period_is_open()).order_by("date_sent")
+        period_id = self.request.query_params.get("period", None)
+        if period_id != None:
+            query_set = Order.objects.filter(
+                period_id=period_id).order_by("date_sent")
+
+        return query_set
 
     def get_serializer_class(self):
         if (self.request.method == "GET"):

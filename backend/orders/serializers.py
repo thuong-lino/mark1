@@ -15,12 +15,12 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class ReadOrderSerializer(serializers.ModelSerializer):
-    user = StringSerializer()
-    customer = CustomerSerializer()
+    customer = StringSerializer()
 
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = ['id', 'customer', 'item', 'unit', 'quantity', 'weight',
+                  'unit_price', 'total', 'date_sent', 'date_flight', 'date_received']
 
 
 class WriteOrderSerializer(serializers.ModelSerializer):

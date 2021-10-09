@@ -15,9 +15,9 @@ class App extends React.Component {
       <SentryBoundary>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <BaseRouter>
-              <Layout {...this.props}></Layout>
-            </BaseRouter>
+            <Layout {...this.props}>
+              <BaseRouter />
+            </Layout>
           </ConnectedRouter>
         </Provider>
       </SentryBoundary>

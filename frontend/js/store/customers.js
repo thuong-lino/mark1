@@ -22,14 +22,14 @@ export const creators = {
 };
 
 const initialState = {
+  customers: null,
   loading: false,
   error: null,
-  customers: null,
 };
 const dispatchStart = (state, action) => {
   return updateObject(state, { error: null, loading: true });
 };
-const dispatchFaild = (state, action) => {
+const dispatchFail = (state, action) => {
   return updateObject(state, { error: action.error, loading: false });
 };
 export const customersReducer = (state = initialState, action) => {
@@ -39,7 +39,7 @@ export const customersReducer = (state = initialState, action) => {
     case types.GET_CUSTOMERS_SUCCESS:
       return updateObject(state, { customers: action.customers });
     case types.GET_CUSTOMERS_FAIL:
-      return dispatchFaild(state, action);
+      return dispatchFail(state, action);
     default:
       return state;
   }

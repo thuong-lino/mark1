@@ -19,7 +19,7 @@ SITE_ID = 1
 DEBUG = True
 
 # Add an email address to the ADMINS settings variable
-#ADMINS = (("Admin", "foo@example.com"),)
+ADMINS = (("Admin", "admin@admin.com"),)
 
 AUTH_USER_MODEL = "users.User"
 

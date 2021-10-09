@@ -1,5 +1,11 @@
 from rest_framework import serializers
+from rest_framework.relations import StringRelatedField
 from .models import Customer, CustomerTransaction
+
+
+class StringSerializer(serializers.StringRelatedField):
+    def to_internal_value(self, data):
+        return super().to_internal_value(data)
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -23,7 +29,8 @@ class CustomerTransactionSerializer(serializers.ModelSerializer):
 
 class HistorySerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    customer = StringSerializer()
 
     class Meta:
         model = CustomerTransaction
-        fields = ['amount', 'created_at']
+        fields = ['customer', 'amount', 'created_at']
