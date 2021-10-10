@@ -34,11 +34,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = Order.objects.filter(
-            period=find_period_is_open()).order_by("-created_at")
+            period=find_period_is_open()).order_by("-date_sent")
         period_id = self.request.query_params.get("period", None)
         if period_id != None and period_id != "null":
             query_set = Order.objects.filter(
-                period_id=period_id).order_by("date_sent")
+                period_id=period_id).order_by("-date_sent")
 
         return query_set
 
@@ -49,8 +49,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        order = serializer.create(request)
+
+        if not serializer.is_valid():
+            return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+        order = serializer.create(serializer.data)
         if not order:
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
         customer = order.customer
@@ -70,8 +72,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             statement.transaction_debit += amount
             statement.save()
 
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        serializer = ReadOrderSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)

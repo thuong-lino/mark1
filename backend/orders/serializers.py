@@ -1,12 +1,9 @@
-from django.db import IntegrityError
+
 from rest_framework import serializers
 from .models import Order
-from users.models import User
-from customers.models import Customer
-from users.serializers import UserSerializer
-from customers.serializers import CustomerSerializer
+
 from statement.utils import find_period_is_open
-from statement.models import Period
+from decimal import Decimal
 from common.utils.actions import currency_to_USD
 
 
@@ -31,15 +28,18 @@ class WriteOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user_id', 'customer_id', 'item', 'unit', 'quantity',
-                  'weight', 'unit_price', 'currency', 'date_sent', 'date_flight', "total"]
+                  'weight', 'unit_price', 'currency', "total"]
 
-    def create(self, request):
-        data = request.data
+    def create(self, data):
         data["period"] = find_period_is_open()
         currency = data['currency']
         data['unit_price'] = currency_to_USD(currency, data['unit_price'])
+        if type(data['weight']) == str:
+            data['weight'] = Decimal(data['weight'])
+        print(data, "day la request.data")
+        order = Order.objects.create(**data)
         try:
-            order = Order.objects.create(**data)
+
             return order
         except:
             return False

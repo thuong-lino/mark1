@@ -61,8 +61,12 @@ const columns = [
 
 export default function OrderTable() {
   //cxonst [orders, setOrders] = useState(null)
-
+  const dispatch = useDispatch();
   let orders = useSelector((state) => state.orders.orders);
+  useEffect(() => {
+    dispatch(creators.getOrders());
+  }, []);
+
   return (
     <div style={{ height: 600, width: '100%' }}>
       {orders ? (

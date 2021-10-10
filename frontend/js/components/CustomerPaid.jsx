@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { creators } from '../store/customers';
 const columns = [
   { field: 'id', headerName: 'ID', width: 70, sortable: false },
   {
@@ -23,6 +24,10 @@ const columns = [
 
 export default function CustomerPaid() {
   let transactions = useSelector((state) => state.customers.transactions);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(creators.getTransactions());
+  }, []);
   return (
     <div style={{ height: 600, width: '100%' }}>
       {transactions ? (

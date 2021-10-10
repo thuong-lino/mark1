@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Topbar from '../components/Topbar';
 import { connect } from 'react-redux';
 import { creators } from '../store/customers';
-import { creators as c2 } from '../store/orders';
-import { creators as s_creators } from '../store/statements';
 import { Link } from 'react-router-dom';
 
 import './layout.css';
@@ -14,11 +12,7 @@ class Layout extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { getCustomers } = this.props;
-    getCustomers();
-    this.props.getOrders();
-    this.props.getTransactions();
-    this.props.getStatements();
+    this.props.getCustomers();
   }
   render() {
     const { pathname } = this.props;
@@ -101,15 +95,6 @@ const mdtp = (dispatch) => {
   return {
     getCustomers: () => {
       dispatch(creators.getCustomers());
-    },
-    getTransactions: () => {
-      dispatch(creators.getTransactions());
-    },
-    getOrders: (period) => {
-      dispatch(c2.getOrders(period));
-    },
-    getStatements: (period = null) => {
-      dispatch(s_creators.getStatements(period));
     },
   };
 };

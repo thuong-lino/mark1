@@ -6,8 +6,8 @@ import CustomerPaid from '../components/CustomerPaid';
 export default function DailyTransaction() {
   return (
     <Tabs
-      labelLeft="Hàng Gửi Hằng Ngày"
-      labelRight="Tiền Trả Hằng Hgày"
+      labelLeft="Gửi hàng"
+      labelRight="Trả tiền"
       itemLeft={<OrderTable />}
       itemRight={<CustomerPaid />}
     />

@@ -19,7 +19,7 @@ export const creators = {
         const res = await api.get(`/api/orders/?period=${period}`);
         dispatch({ type: types.GET_ORDERS_SUCCESS, orders: res.data });
       } catch (error) {
-        dispatch({ type: types.GET_ORDERS_FAIL, error: res.error });
+        dispatch({ type: types.GET_ORDERS_FAIL, error: error.response.data });
       }
     };
   },
@@ -28,10 +28,10 @@ export const creators = {
       dispatch({ type: types.ADD_ORDER_START });
       try {
         const res = await api.post(`/api/orders/`, order);
-        dispatch({ type: types.ADD_ORDER_SUCCESS });
-        getOrders();
+
+        dispatch({ type: types.ADD_ORDER_SUCCESS, orders: res.data });
       } catch (error) {
-        dispatch({ type: types.ADD_ORDER_FAIL, error: res.error });
+        dispatch({ type: types.ADD_ORDER_FAIL, error: error.response.data });
       }
     };
   },
