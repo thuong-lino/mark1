@@ -11,7 +11,6 @@ import { LineStyle } from '@material-ui/icons';
 class Layout extends Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
   componentDidMount() {
@@ -61,9 +60,11 @@ class Layout extends Component {
                 <h3 className="sidebarTitle">
                   Đơn Hàng
                   <ul className="sidebarList">
-                    <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" /> Hàng Đi / Hàng Đến
-                    </li>
+                    <Link to="/orders/" className="link">
+                      <li className="sidebarListItem">
+                        <LineStyle className="sidebarIcon" /> Hàng Đi / Hàng Đến
+                      </li>
+                    </Link>
                     <li className="sidebarListItem">
                       <LineStyle className="sidebarIcon" />
                       Gửi hàng / Trả tiền
@@ -104,7 +105,7 @@ const mdtp = (dispatch) => {
     getTransactions: () => {
       dispatch(creators.getTransactions());
     },
-    getOrders: (period = null) => {
+    getOrders: (period) => {
       dispatch(c2.getOrders(period));
     },
     getStatements: (period = null) => {

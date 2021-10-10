@@ -95,3 +95,17 @@
   border-radius: 10px;
   color: rgb(0, 167, 14);
 }
+.inputField {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-content: space-evenly;
+}
+.sendOrderField {
+  display: flex;
+  justify-content: flex-end;
+}
+.sendOrderItem {
+  width: 150px;
+  margin: 10px !important;
+}

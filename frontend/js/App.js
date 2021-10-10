@@ -6,23 +6,33 @@ import BaseRouter from './routes/index';
 import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './store';
 import SentryBoundary from './utils/SentryBoundary';
-import '../css/global.css';
+import Login from './pages/Authentication/login-form';
 
 const store = configureStore({});
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      authenticated: true,
+    };
+  }
   render() {
+    const { authenticated } = this.state;
     return (
       <SentryBoundary>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <Layout {...this.props}>
-              <BaseRouter />
-            </Layout>
+            {authenticated ? (
+              <Layout {...this.props}>
+                <BaseRouter />
+              </Layout>
+            ) : (
+              <Login />
+            )}
           </ConnectedRouter>
         </Provider>
       </SentryBoundary>
     );
   }
 }
-
 export default hot(App);

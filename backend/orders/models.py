@@ -21,6 +21,7 @@ class Order(models.Model):
     date_sent = models.DateField()
     date_flight = models.DateField(null=True, blank=True)
     date_received = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.total = self.weight * self.unit_price

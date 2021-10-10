@@ -5,17 +5,33 @@ const types = {
   GET_ORDERS_START: 'GET_ORDERS_START',
   GET_ORDERS_SUCCESS: 'GET_ORDERS_SUCCESS',
   GET_ORDERS_FAIL: 'GET_ORDERS_FAIL',
+
+  ADD_ORDER_START: 'ADD_ORDER_START',
+  ADD_ORDER_SUCCESS: 'ADD_ORDER_SUCCESS',
+  ADD_ORDER_FAIL: 'ADD_ORDER_FAIL',
 };
 
 export const creators = {
-  getOrders: (period) => {
+  getOrders: (period = null) => {
     return async (dispatch) => {
       dispatch({ type: types.GET_ORDERS_START });
       try {
         const res = await api.get(`/api/orders/?period=${period}`);
         dispatch({ type: types.GET_ORDERS_SUCCESS, orders: res.data });
       } catch (error) {
-        dispatch({ type: types.GET_ORDERS_FAIL });
+        dispatch({ type: types.GET_ORDERS_FAIL, error: res.error });
+      }
+    };
+  },
+  addOrder: (order) => {
+    return async (dispatch) => {
+      dispatch({ type: types.ADD_ORDER_START });
+      try {
+        const res = await api.post(`/api/orders/`, order);
+        dispatch({ type: types.ADD_ORDER_SUCCESS });
+        getOrders();
+      } catch (error) {
+        dispatch({ type: types.ADD_ORDER_FAIL, error: res.error });
       }
     };
   },
@@ -40,6 +56,13 @@ export const ordersReducer = (state = initialState, action) => {
       return updateObject(state, { orders: action.orders });
     case types.GET_ORDERS_FAIL:
       return dispatchFail(state, action);
+    case types.ADD_ORDER_START:
+      return dispatchStart(state, action);
+    case types.ADD_ORDER_SUCCESS:
+      return updateObject(state, { orders: action.orders });
+    case types.ADD_ORDER_FAIL:
+      return dispatchFail(state, action);
+
     default:
       return state;
   }

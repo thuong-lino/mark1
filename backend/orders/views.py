@@ -34,7 +34,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = Order.objects.filter(
-            period=find_period_is_open()).order_by("-date_sent")
+            period=find_period_is_open()).order_by("-created_at")
         period_id = self.request.query_params.get("period", None)
         if period_id != None and period_id != "null":
             query_set = Order.objects.filter(
