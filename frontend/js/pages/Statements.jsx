@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { creators } from '../store/statements';

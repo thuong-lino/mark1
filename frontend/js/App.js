@@ -7,6 +7,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import configureStore, { history } from './store';
 import SentryBoundary from './utils/SentryBoundary';
 import Login from './pages/Authentication/login-form';
+import { SnackbarProvider } from 'notistack';
 
 const store = configureStore({});
 class App extends React.Component {
@@ -23,9 +24,11 @@ class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             {authenticated ? (
-              <Layout {...this.props}>
-                <BaseRouter />
-              </Layout>
+              <SnackbarProvider>
+                <Layout {...this.props}>
+                  <BaseRouter />
+                </Layout>
+              </SnackbarProvider>
             ) : (
               <Login />
             )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Tabs from '../components/Tabs';
-import OrderTable from '../components/Order';
-import CustomerPaid from '../components/CustomerPaid';
+import OrderTable from './Order';
+import CustomerPaid from './CustomerPaid';
 
 export default function DailyTransaction() {
   return (

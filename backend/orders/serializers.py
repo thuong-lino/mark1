@@ -1,5 +1,6 @@
-
+from django.conf import settings
 from rest_framework import serializers
+from rest_framework.fields import DateTimeField
 from .models import Order
 
 from statement.utils import find_period_is_open
@@ -14,6 +15,7 @@ class StringSerializer(serializers.StringRelatedField):
 
 class ReadOrderSerializer(serializers.ModelSerializer):
     customer = StringSerializer()
+    date_sent = DateTimeField(format=settings.DATETIME_FORMAT)
 
     class Meta:
         model = Order
@@ -36,7 +38,6 @@ class WriteOrderSerializer(serializers.ModelSerializer):
         data['unit_price'] = currency_to_USD(currency, data['unit_price'])
         if type(data['weight']) == str:
             data['weight'] = Decimal(data['weight'])
-        print(data, "day la request.data")
         order = Order.objects.create(**data)
         try:
 

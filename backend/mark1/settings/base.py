@@ -142,7 +142,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 LANGUAGE_CODE = "en-us"
-DATETIME_FORMAT = 'd-m-Y H:i:s'
+DATETIME_FORMAT = '%d-%m-%y %H:%M:%S'
 TIME_ZONE = "Asia/Ho_Chi_Minh"
 
 USE_I18N = True

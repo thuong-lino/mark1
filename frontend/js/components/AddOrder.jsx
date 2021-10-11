@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography, TextField, MenuItem } from '@material-ui/core';
-import { MyFormControl, MyInput } from './CustomMui';
+import { MyFormControl } from './CustomMui';
 import { Autocomplete } from '@material-ui/lab';
-
-import { connect } from 'react-redux';
-import { creators } from '../store/orders';
-import { creators as CustomerCreators } from '../store/customers';
 
 export class AddOrder extends Component {
   constructor(props) {
@@ -16,7 +12,6 @@ export class AddOrder extends Component {
       unit: '',
       quantity: '',
       weight: '',
-      quantity: '',
       unit_price: '',
       currency: 'USD',
       customer: null,
@@ -31,9 +26,9 @@ export class AddOrder extends Component {
   handleSubmitOrder(e) {
     e.preventDefault();
     const { item, unit, quantity, weight, unit_price, customer, currency } = this.state;
-    const { addOrder, errors } = this.props;
+    const { onSubmit, user_id } = this.props;
     const order = {
-      user_id: 2,
+      user_id,
       customer_id: customer.id,
       item,
       unit,
@@ -43,16 +38,15 @@ export class AddOrder extends Component {
       currency,
     };
 
-    addOrder(order);
+    onSubmit(order);
 
-    // this.setState({
-    //   item: '',
-    //   unit: '',
-    //   quantity: '',
-    //   weight: '',
-    //   quantity: '',
-    //   customer: null,
-    // });
+    this.setState({
+      item: '',
+      unit: '',
+      quantity: '',
+      weight: '',
+      customer: null,
+    });
   }
 
   render() {
@@ -73,7 +67,7 @@ export class AddOrder extends Component {
           </Grid>
           <form onSubmit={this.handleSubmitOrder}>
             <Grid item xs={12} className="inputField">
-              <MyFormControl>
+              <MyFormControl style={{ top: '-12px' }}>
                 <Autocomplete
                   id="controled"
                   options={customers ? customers : []}
@@ -176,17 +170,5 @@ export class AddOrder extends Component {
     );
   }
 }
-const mstp = (state) => {
-  return {
-    customers: state.customers.customers,
-    errors: state.orders.error,
-  };
-};
-const mdtp = (dispatch) => {
-  return {
-    addOrder: (order) => {
-      dispatch(creators.addOrder(order));
-    },
-  };
-};
-export default connect(mstp, mdtp)(AddOrder);
+
+export default AddOrder;

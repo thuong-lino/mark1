@@ -52,6 +52,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         if not serializer.is_valid():
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.validated_data)
         order = serializer.create(serializer.data)
         if not order:
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
