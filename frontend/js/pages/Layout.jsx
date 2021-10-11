@@ -10,7 +10,7 @@ import {
   Edit,
   Equalizer,
   FlightTakeoff,
-  LineStyle,
+  PermIdentity,
   Today,
   TrendingUp,
 } from '@material-ui/icons';
@@ -79,8 +79,8 @@ class Layout extends Component {
                   Khách hàng
                   <ul className="sidebarList">
                     <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" />
-                      Thông tin
+                      <PermIdentity className="sidebarIcon" />
+                      Thông tin khách hàng
                     </li>
                   </ul>
                 </h3>

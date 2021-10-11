@@ -8,30 +8,24 @@ import configureStore, { history } from './store';
 import SentryBoundary from './utils/SentryBoundary';
 import Login from './pages/Authentication/login-form';
 import { SnackbarProvider } from 'notistack';
+import { Route } from 'react-router';
 
 const store = configureStore({});
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      authenticated: true,
-    };
   }
   render() {
-    const { authenticated } = this.state;
     return (
       <SentryBoundary>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            {authenticated ? (
-              <SnackbarProvider>
-                <Layout {...this.props}>
-                  <BaseRouter />
-                </Layout>
-              </SnackbarProvider>
-            ) : (
-              <Login />
-            )}
+            <Route path="/login/" component={Login} />
+            <SnackbarProvider>
+              <Layout {...this.props}>
+                <BaseRouter />
+              </Layout>
+            </SnackbarProvider>
           </ConnectedRouter>
         </Provider>
       </SentryBoundary>
