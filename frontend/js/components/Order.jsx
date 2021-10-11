@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { creators } from '../store/orders';
 
 const columns = [
@@ -62,10 +62,11 @@ const columns = [
 export default function OrderTable() {
   //cxonst [orders, setOrders] = useState(null)
   const dispatch = useDispatch();
-  let orders = useSelector((state) => state.orders.orders);
+  let orders = useSelector((state) => state.orders.orders, shallowEqual);
   useEffect(() => {
     dispatch(creators.getOrders());
-  }, []);
+  }, [dispatch]);
+  console.log('Render');
 
   return (
     <div style={{ height: 600, width: '100%' }}>

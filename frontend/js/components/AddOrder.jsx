@@ -45,16 +45,14 @@ export class AddOrder extends Component {
 
     addOrder(order);
 
-    this.setState({
-      item: '',
-      unit: '',
-      quantity: '',
-      weight: '',
-      quantity: '',
-      unit_price: '',
-      currency: '',
-      customer: null,
-    });
+    // this.setState({
+    //   item: '',
+    //   unit: '',
+    //   quantity: '',
+    //   weight: '',
+    //   quantity: '',
+    //   customer: null,
+    // });
   }
 
   render() {
