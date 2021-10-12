@@ -109,3 +109,12 @@
   width: 150px;
   margin: 10px !important;
 }
+.orderButton {
+  margin: 10px !important;
+  width: 75px;
+  position: relative;
+}
+.orderStatusWrapper {
+  display: flex;
+  justify-content: space-around;
+}

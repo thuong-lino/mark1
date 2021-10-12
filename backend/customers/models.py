@@ -21,7 +21,7 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.phone_number}-{self.firstname}"
+        return f"{self.id} - {self.phone_number} - {self.firstname}"
 
 
 class API_KEY(models.Model):

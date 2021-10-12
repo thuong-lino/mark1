@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { creators } from '../store/statements';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70, sortable: false },
@@ -55,6 +56,10 @@ const columns = [
 
 export default function Statements() {
   let statements = useSelector((state) => state.statements.statements);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(creators.getStatements());
+  }, []);
   return (
     <div style={{ height: 600, width: '100%' }}>
       {statements ? (

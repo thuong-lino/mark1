@@ -2,23 +2,25 @@ import React, { Component } from 'react';
 import Topbar from '../components/Topbar';
 import { connect } from 'react-redux';
 import { creators } from '../store/customers';
-import { creators as c2 } from '../store/orders';
-import { creators as s_creators } from '../store/statements';
 import { Link } from 'react-router-dom';
 
 import './layout.css';
-import { LineStyle } from '@material-ui/icons';
+import {
+  Description,
+  Edit,
+  Equalizer,
+  FlightTakeoff,
+  PermIdentity,
+  Today,
+  TrendingUp,
+} from '@material-ui/icons';
 class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   componentDidMount() {
-    const { getCustomers } = this.props;
-    getCustomers();
-    this.props.getOrders();
-    this.props.getTransactions();
-    this.props.getStatements();
+    this.props.getCustomers();
   }
   render() {
     const { pathname } = this.props;
@@ -33,24 +35,24 @@ class Layout extends Component {
                   Dashboard
                   <ul className="sidebarList">
                     <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" /> Biểu đồ
+                      <Equalizer className="sidebarIcon" /> Biểu đồ
                     </li>
                     <Link to="/statements/" className="link">
                       <li
                         className={`sidebarListItem ${pathname == '/statements/' ? 'active' : ''}`}
                       >
-                        <LineStyle className="sidebarIcon" />
+                        <Description className="sidebarIcon" />
                         Tổng hợp công nợ
                       </li>
                     </Link>
                     <Link to="/daily/" className="link">
                       <li className={`sidebarListItem ${pathname == '/daily/' ? 'active' : ''}`}>
-                        <LineStyle className="sidebarIcon" />
-                        Tổng hợp chứng từ phát sinh
+                        <Today className="sidebarIcon" />
+                        Phát sinh hằng ngày
                       </li>
                     </Link>
                     <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" />
+                      <TrendingUp className="sidebarIcon" />
                       Phân tích
                     </li>
                   </ul>
@@ -62,12 +64,12 @@ class Layout extends Component {
                   <ul className="sidebarList">
                     <Link to="/orders/" className="link">
                       <li className="sidebarListItem">
-                        <LineStyle className="sidebarIcon" /> Hàng Đi / Hàng Đến
+                        <FlightTakeoff className="sidebarIcon" /> Tình trạng đơn hàng
                       </li>
                     </Link>
                     <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" />
-                      Gửi hàng / Trả tiền
+                      <Edit className="sidebarIcon" />
+                      Sửa đơn hàng
                     </li>
                   </ul>
                 </h3>
@@ -77,8 +79,8 @@ class Layout extends Component {
                   Khách hàng
                   <ul className="sidebarList">
                     <li className="sidebarListItem">
-                      <LineStyle className="sidebarIcon" />
-                      Thông tin
+                      <PermIdentity className="sidebarIcon" />
+                      Thông tin khách hàng
                     </li>
                   </ul>
                 </h3>
@@ -101,15 +103,6 @@ const mdtp = (dispatch) => {
   return {
     getCustomers: () => {
       dispatch(creators.getCustomers());
-    },
-    getTransactions: () => {
-      dispatch(creators.getTransactions());
-    },
-    getOrders: (period) => {
-      dispatch(c2.getOrders(period));
-    },
-    getStatements: (period = null) => {
-      dispatch(s_creators.getStatements(period));
     },
   };
 };

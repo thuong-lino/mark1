@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
 from payments.models import Payment
@@ -34,11 +34,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = Order.objects.filter(
-            period=find_period_is_open()).order_by("-created_at")
+            period=find_period_is_open()).order_by("-date_sent")
         period_id = self.request.query_params.get("period", None)
         if period_id != None and period_id != "null":
             query_set = Order.objects.filter(
-                period_id=period_id).order_by("date_sent")
+                period_id=period_id).order_by("-date_sent")
 
         return query_set
 
@@ -49,8 +49,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        order = serializer.create(request)
+
+        if not serializer.is_valid():
+            return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+        print(serializer.validated_data)
+        order = serializer.create(serializer.data)
         if not order:
             return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
         customer = order.customer
@@ -70,8 +73,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             statement.transaction_debit += amount
             statement.save()
 
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        serializer = ReadOrderSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -91,3 +94,22 @@ class OrderViewSet(viewsets.ModelViewSet):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+class OrderStatusViewList(views.APIView):
+    def post(self, request):
+        """
+        input : "1,2,3" string
+        return order list with order has pk 1,2,3
+        """
+        data = request.data
+        try:
+            ids = [int(x) for x in data.split(',')]
+        except:
+            return Response({'errors': "Dữ liệu gửi không đúng định dạng"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            list_order = Order.objects.filter(pk__in=ids)
+            serializer = ReadOrderSerializer(list_order, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

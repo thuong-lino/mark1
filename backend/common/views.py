@@ -1,13 +1,19 @@
 from django.views import generic
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
+    login_url = "/login/"
+    redirect_field_name = 'redirect_to'
     template_name = 'common/index.html'
+
+
+class LoginView(generic.TemplateView):
+    template_name = "common/login.html/"
 
 
 class RestViewSet(viewsets.ViewSet):
