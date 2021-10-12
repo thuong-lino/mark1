@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { creators } from '../store/orders';
-import { Button } from '@material-ui/core';
+import { Button, IconButton, Typography } from '@material-ui/core';
 import AddOrder from '../components/AddOrder';
 
 const columns = [
@@ -10,29 +10,32 @@ const columns = [
   {
     field: 'customer',
     headerName: 'Khách Hàng',
-    width: 100,
-    sortable: false,
-    settings: false,
+    editable: true,
+    width: 150,
   },
   {
     field: 'item',
     headerName: 'Tên hàng',
     width: 100,
+    sortable: false,
   },
   {
     field: 'unit',
     headerName: 'ĐVT',
+    sortable: false,
     width: 100,
   },
   {
     field: 'quantity',
     headerName: 'SL',
-    width: 100,
+    sortable: false,
+    width: 70,
   },
   {
     field: 'weight',
+    sortable: false,
     headerName: 'Kg',
-    width: 100,
+    width: 70,
   },
   {
     field: 'unit_price',
@@ -65,13 +68,10 @@ export default function OrderTable() {
   //cxonst [orders, setOrders] = useState(null)
   const dispatch = useDispatch();
   const [createMode, setCreateMode] = useState(false);
-  let orders = useSelector((state) => state.orders.orders); // use let because data grid needed
+  let orders = useSelector((state) => state.orders.orders); // use let because DataGrid needed
   const customers = useSelector((state) => state.customers.customers);
   const errors = useSelector((state) => state.customers.errors);
 
-  useEffect(() => {
-    dispatch(creators.getOrders());
-  }, []);
   const handleButtonClick = () => {
     setCreateMode(!createMode);
   };

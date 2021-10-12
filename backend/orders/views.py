@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
 from payments.models import Payment
@@ -94,3 +94,22 @@ class OrderViewSet(viewsets.ModelViewSet):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+class OrderStatusViewList(views.APIView):
+    def post(self, request):
+        """
+        input : "1,2,3" string
+        return order list with order has pk 1,2,3
+        """
+        data = request.data
+        try:
+            ids = [int(x) for x in data.split(',')]
+        except:
+            return Response({'errors': "Dữ liệu gửi không đúng định dạng"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            list_order = Order.objects.filter(pk__in=ids)
+            serializer = ReadOrderSerializer(list_order, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

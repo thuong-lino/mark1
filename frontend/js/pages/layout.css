@@ -114,3 +114,7 @@
   width: 75px;
   position: relative;
 }
+.orderStatusWrapper {
+  display: flex;
+  justify-content: space-around;
+}

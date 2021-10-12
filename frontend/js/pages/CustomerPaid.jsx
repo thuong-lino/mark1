@@ -32,11 +32,8 @@ export default function CustomerPaid() {
   const errors = useSelector((state) => state.customers.errors);
   const { enqueueSnackbar } = useSnackbar();
   const [createMode, setCreateMode] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(creators.getTransactions());
-  }, []);
+
   const handleButtonClick = () => {
     setCreateMode(!createMode);
   };
