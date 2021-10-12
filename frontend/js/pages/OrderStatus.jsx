@@ -1,6 +1,6 @@
 import { CircularProgress, IconButton, InputAdornment, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { creators } from '../store/orders';
 
@@ -39,8 +39,27 @@ export default function OrderStatus() {
             }}
           />
         </Grid>
-        <Grid item xs={12}>
-          {loading ? <CircularProgress /> : <TextField defaultValue="something" />}
+        <Grid item xs={12} container direction="row" spacing={3}>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              <Grid item>
+                <TextField defaultValue="something" />
+              </Grid>
+
+              <Grid item>
+                <Button variant="outlined" color="primary">
+                  Button
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="outlined" color="secondary">
+                  Button
+                </Button>
+              </Grid>
+            </>
+          )}
         </Grid>
       </Grid>
     </>

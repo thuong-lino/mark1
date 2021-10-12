@@ -181,6 +181,11 @@ export class AddOrder extends Component {
     );
   }
 }
+const mstp = (state) => {
+  return {
+    user_id: state.auth.user.user_id,
+  };
+};
 const mdtp = (dispatch) => {
   return {
     getOrders: () => {
@@ -188,4 +193,4 @@ const mdtp = (dispatch) => {
     },
   };
 };
-export default connect(null, mdtp)(withSnackbar(AddOrder));
+export default connect(mstp, mdtp)(withSnackbar(AddOrder));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Topbar from '../components/Topbar';
 import { connect } from 'react-redux';
 import { creators } from '../store/customers';
+import { creators as authCreators } from '../store/auth';
 import { Link } from 'react-router-dom';
 
 import './layout.css';
@@ -20,13 +21,16 @@ class Layout extends Component {
     this.state = {};
   }
   componentDidMount() {
-    this.props.getCustomers();
+    const { getCustomers, doLogout, autoLogin } = this.props;
+    const user = JSON.parse(localStorage.getItem('user'));
+    getCustomers(); // common used
+    autoLogin(user);
   }
   render() {
-    const { pathname } = this.props;
+    const { pathname, doLogout } = this.props;
     return (
       <div>
-        <Topbar />
+        <Topbar doLogout={doLogout} />
         <div className="container">
           <div className="sidebar">
             <div className="sidebarWrapper">
@@ -103,6 +107,12 @@ const mdtp = (dispatch) => {
   return {
     getCustomers: () => {
       dispatch(creators.getCustomers());
+    },
+    autoLogin: (user) => {
+      dispatch({ type: 'LOGIN_SUCCESS', user });
+    },
+    doLogout: () => {
+      dispatch(authCreators.doLogout());
     },
   };
 };

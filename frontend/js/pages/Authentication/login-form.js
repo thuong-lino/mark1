@@ -19,6 +19,7 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
   handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
@@ -27,6 +28,11 @@ class Login extends React.Component {
     const { username, password } = this.state;
     const { doLogin } = this.props;
     doLogin(username, password);
+  }
+  handleKeyDown(e) {
+    if (e.keyCode == 13) {
+      this.handleSubmit();
+    }
   }
   render() {
     const { username, password } = this.state;
@@ -54,6 +60,7 @@ class Login extends React.Component {
               id="password"
               label="Password"
               placeholder="Enter password"
+              onKeyDown={this.handleKeyDown}
               type="password"
               fullWidth
               required

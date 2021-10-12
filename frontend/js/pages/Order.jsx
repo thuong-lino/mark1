@@ -98,7 +98,7 @@ export default function OrderTable() {
   return (
     <div className="ordersWrapper">
       {button}
-      {createMode === true ? <AddOrder customers={customers} user_id={2}></AddOrder> : null}
+      {createMode === true ? <AddOrder customers={customers}></AddOrder> : null}
       <div style={{ height: 600, width: '100%', margin: '10px 0px' }}>
         {orders ? (
           <DataGrid
