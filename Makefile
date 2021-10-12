@@ -62,3 +62,5 @@ docker_makemigrations:
 
 docker_migrate:
 	docker-compose run --rm backend python manage.py migrate
+run_backend:
+	python backend/manage.py runserver

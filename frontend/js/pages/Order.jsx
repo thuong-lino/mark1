@@ -2,65 +2,69 @@ import React, { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import { useSelector, useDispatch } from 'react-redux';
 import { creators } from '../store/orders';
-import { Button, IconButton, Typography } from '@material-ui/core';
+import { Button, Chip, IconButton, Typography } from '@material-ui/core';
 import AddOrder from '../components/AddOrder';
+import { HighlightOffOutlined, HourglassEmptyOutlined } from '@material-ui/icons';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70, sortable: false },
+  { field: 'id', headerName: 'ID', flex: 1, sortable: false, cellClassName: 'orderTableId' },
   {
     field: 'customer',
     headerName: 'Khách Hàng',
-    editable: true,
-    width: 150,
+    flex: 3,
   },
-  {
-    field: 'item',
-    headerName: 'Tên hàng',
-    width: 100,
-    sortable: false,
-  },
-  {
-    field: 'unit',
-    headerName: 'ĐVT',
-    sortable: false,
-    width: 100,
-  },
-  {
-    field: 'quantity',
-    headerName: 'SL',
-    sortable: false,
-    width: 70,
-  },
-  {
-    field: 'weight',
-    sortable: false,
-    headerName: 'Kg',
-    width: 70,
-  },
-  {
-    field: 'unit_price',
-    headerName: 'Đơn giá',
-    width: 120,
-  },
-  {
-    field: 'total',
-    headerName: 'Thành tiền',
-    width: 150,
-  },
+
   {
     field: 'date_sent',
     headerName: 'Ngày gửi',
-    width: 150,
+    flex: 2,
   },
   {
     field: 'date_flight',
+    flex: 2,
     headerName: 'Ngày bay',
-    width: 120,
+    renderCell: (params) => {
+      if (!params.row.date_flight) {
+        return (
+          <Chip
+            icon={<HighlightOffOutlined />}
+            label="Hàng chưa được gửi đi"
+            color="primary"
+            variant="outlined"
+            style={{ fontSize: '10px' }}
+          />
+        );
+      }
+    },
   },
   {
     field: 'date_received',
     headerName: 'Ngày đến',
-    width: 150,
+    flex: 2,
+    renderCell: (params) => {
+      if (!params.row.date_received) {
+        return (
+          <Chip
+            icon={<HourglassEmptyOutlined />}
+            label="Chưa nhận được hàng"
+            color="secondary"
+            variant="outlined"
+            style={{ fontSize: '10px' }}
+          />
+        );
+      }
+    },
+  },
+  {
+    field: 'total',
+    headerName: 'Thành tiền',
+    headerAlign: 'right',
+    cellClassName: 'orderTableTotal',
+    flex: 1.5,
+
+    valueFormatter: (params) => {
+      return `$ ${params.row.total}`;
+    },
   },
 ];
 
@@ -74,6 +78,9 @@ export default function OrderTable() {
 
   const handleButtonClick = () => {
     setCreateMode(!createMode);
+  };
+  const handleOnRowClick = (params) => {
+    console.log('row click', params.row.id);
   };
   const button =
     createMode === false ? (
@@ -107,6 +114,7 @@ export default function OrderTable() {
             pageSize={10}
             rowsPerPageOptions={[10]}
             disableSelectionOnClick
+            onRowClick={handleOnRowClick}
             ocaleText={{
               toolbarDensity: 'Size',
               toolbarDensityLabel: 'Size',

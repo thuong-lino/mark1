@@ -3,7 +3,7 @@
   margin-top: 10px;
 }
 .mainPage {
-  flex: 5;
+  flex: 5.5;
   height: calc(100vh - 50px);
   top: 50px;
 }
@@ -128,3 +128,10 @@
   display: flex;
   justify-content: space-around;
 }
+.orderTableTotal {
+  text-align: right !important;
+}
+.orderTableId {
+  text-align: center !important;
+}
+/*3f51b5*/

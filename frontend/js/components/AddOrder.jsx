@@ -129,7 +129,12 @@ export class AddOrder extends Component {
                   onChange={this.handleChange}
                   helperText="Kg"
                   value={weight}
-                  inputProps={{ style: { textAlign: 'center' }, min: '0', type: 'number' }}
+                  inputProps={{
+                    style: { textAlign: 'center' },
+                    min: '0',
+                    type: 'number',
+                    step: 0.01,
+                  }}
                 />
               </MyFormControl>
               <MyFormControl style={{ width: 100 }}>
@@ -139,17 +144,25 @@ export class AddOrder extends Component {
                   onChange={this.handleChange}
                   helperText="đơn giá"
                   value={unit_price}
-                  inputProps={{ style: { textAlign: 'center' }, min: '0', type: 'number' }}
+                  inputProps={{
+                    style: { textAlign: 'center' },
+                    min: '0',
+                    type: 'number',
+                    step: 0.01,
+                  }}
                   InputProps={{ endAdornment: symbol }}
                 />
               </MyFormControl>
               <MyFormControl style={{ width: 100 }}>
                 <TextField
                   id="total"
-                  value={weight * unit_price}
+                  value={Math.round(weight * unit_price * 100) / 100}
                   disabled
                   helperText="thành tiền"
-                  inputProps={{ style: { textAlign: 'center' }, min: '0', type: 'number' }}
+                  inputProps={{
+                    style: { textAlign: 'center' },
+                    type: 'number',
+                  }}
                 />
               </MyFormControl>
             </Grid>
