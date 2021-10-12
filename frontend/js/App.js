@@ -14,12 +14,6 @@ const store = configureStore({});
 class App extends React.Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-    this.state = {
-      authenticated: false,
-    };
-=======
->>>>>>> 8a71aa30228ad2d2aa67d1f8ac8c6b855dc0150d
   }
   render() {
     return (

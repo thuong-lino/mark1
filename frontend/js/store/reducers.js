@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { customersReducer as customers } from './customers';
 import { ordersReducer as orders } from './orders';
 import { statementsReducer as statements } from './statements';
+import { authReducer as auth } from './auth';
 
 export const createRootReducer = (history) => {
   return combineReducers({
@@ -10,5 +11,6 @@ export const createRootReducer = (history) => {
     customers,
     orders,
     statements,
+    auth,
   });
 };
