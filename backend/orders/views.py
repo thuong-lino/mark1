@@ -51,11 +51,11 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
         print(serializer.validated_data)
         order = serializer.create(serializer.data)
         if not order:
-            return Response({'error': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': "Dữ liệu gửi không hợp lệ"}, status=status.HTTP_400_BAD_REQUEST)
         customer = order.customer
         amount = order.total
         period = order.period

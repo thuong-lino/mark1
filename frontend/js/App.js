@@ -8,7 +8,7 @@ import configureStore, { history } from './store';
 import SentryBoundary from './utils/SentryBoundary';
 import Login from './pages/Authentication/login-form';
 import { SnackbarProvider } from 'notistack';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 
 const store = configureStore({});
 class App extends React.Component {
@@ -20,12 +20,17 @@ class App extends React.Component {
       <SentryBoundary>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <Route path="/login/" component={Login} />
-            <SnackbarProvider>
-              <Layout {...this.props}>
-                <BaseRouter />
-              </Layout>
-            </SnackbarProvider>
+            <Switch>
+              <Route path="/login/" component={Login} />
+              <Route>
+                {' '}
+                <SnackbarProvider>
+                  <Layout {...this.props}>
+                    <BaseRouter />
+                  </Layout>
+                </SnackbarProvider>
+              </Route>
+            </Switch>
           </ConnectedRouter>
         </Provider>
       </SentryBoundary>

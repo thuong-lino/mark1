@@ -1,9 +1,10 @@
 import React from 'react';
 import { NotificationsNone, Settings, ExitToApp } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import api from '../store/api';
 
 export default function Topbar() {
+  const history = useHistory();
   return (
     <div className="topbar">
       <div className="topbarWarpper">
@@ -21,7 +22,13 @@ export default function Topbar() {
             <Settings />
           </div>
           <div className="topbarIconContainer">
-            <ExitToApp className="topbarIcon" onClick={() => api.post('/rest-auth/logout/')} />
+            <ExitToApp
+              className="topbarIcon"
+              onClick={() => {
+                api.post('/rest-auth/logout/');
+                history.push('/login/');
+              }}
+            />
           </div>
         </div>
       </div>

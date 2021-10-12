@@ -95,6 +95,16 @@
   border-radius: 10px;
   color: rgb(0, 167, 14);
 }
+.noCuoiKi {
+  border-radius: 10px;
+  color: rgb(189, 0, 0);
+  font-weight: bold;
+}
+.coCuoiKi {
+  border-radius: 10px;
+  color: rgb(0, 167, 14);
+  font-weight: bold;
+}
 .inputField {
   display: flex;
   justify-content: space-evenly;

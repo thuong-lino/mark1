@@ -37,13 +37,13 @@ const columns = [
   },
   {
     field: 'close_debit',
-    cellClassName: 'no',
+    cellClassName: 'noCuoiKi',
     headerName: 'Nợ cuối kỳ',
     width: 150,
   },
   {
     field: 'close_credit',
-    cellClassName: 'co',
+    cellClassName: 'coCuoiKi',
     headerName: 'Có cuối kỳ',
     width: 150,
   },

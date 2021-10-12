@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button, Grid, Typography, TextField, MenuItem } from '@material-ui/core';
 import { MyFormControl } from './CustomMui';
 import { Autocomplete } from '@material-ui/lab';
+import { creators } from '../store/orders';
+import api from '../store/api';
+import { withSnackbar } from 'notistack';
 
 export class AddOrder extends Component {
   constructor(props) {
@@ -23,10 +27,10 @@ export class AddOrder extends Component {
   handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
   }
-  handleSubmitOrder(e) {
+  async handleSubmitOrder(e) {
     e.preventDefault();
     const { item, unit, quantity, weight, unit_price, customer, currency } = this.state;
-    const { onSubmit, user_id } = this.props;
+    const { user_id, getOrders, enqueueSnackbar } = this.props;
     const order = {
       user_id,
       customer_id: customer.id,
@@ -38,15 +42,22 @@ export class AddOrder extends Component {
       currency,
     };
 
-    onSubmit(order);
-
-    this.setState({
-      item: '',
-      unit: '',
-      quantity: '',
-      weight: '',
-      customer: null,
-    });
+    try {
+      const res = await api.post(`/api/orders/`, order);
+      enqueueSnackbar('Thêm đơn hàng thành công', { variant: 'success' });
+      this.setState({
+        item: '',
+        unit: '',
+        quantity: '',
+        weight: '',
+      });
+      getOrders();
+    } catch (error) {
+      if (error.response) {
+        error = error.response.data.msg;
+        enqueueSnackbar(error, { variant: 'error' });
+      }
+    }
   }
 
   render() {
@@ -170,5 +181,11 @@ export class AddOrder extends Component {
     );
   }
 }
-
-export default AddOrder;
+const mdtp = (dispatch) => {
+  return {
+    getOrders: () => {
+      dispatch(creators.getOrders());
+    },
+  };
+};
+export default connect(null, mdtp)(withSnackbar(AddOrder));

@@ -75,9 +75,6 @@ export default function OrderTable() {
   const handleButtonClick = () => {
     setCreateMode(!createMode);
   };
-  const handleSubmit = (order) => {
-    dispatch(creators.addOrder(order));
-  };
   const button =
     createMode === false ? (
       <Button
@@ -101,14 +98,7 @@ export default function OrderTable() {
   return (
     <div className="ordersWrapper">
       {button}
-      {createMode === true ? (
-        <AddOrder
-          customers={customers}
-          user_id={2}
-          onSubmit={handleSubmit}
-          errors={errors}
-        ></AddOrder>
-      ) : null}
+      {createMode === true ? <AddOrder customers={customers} user_id={2}></AddOrder> : null}
       <div style={{ height: 600, width: '100%', margin: '10px 0px' }}>
         {orders ? (
           <DataGrid

@@ -1,5 +1,6 @@
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -8,12 +9,16 @@ from rest_framework.permissions import AllowAny
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
     login_url = "/login/"
-    redirect_field_name = 'redirect_to'
     template_name = 'common/index.html'
 
 
 class LoginView(generic.TemplateView):
     template_name = "common/login.html/"
+
+    def get(self, request, *args, **kwargs):
+        if(request.user.is_authenticated):
+            return redirect('/')
+        return super().get(request, *args, **kwargs)
 
 
 class RestViewSet(viewsets.ViewSet):

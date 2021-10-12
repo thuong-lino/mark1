@@ -11,12 +11,10 @@ from common.utils import actions
 class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all().order_by('-last_transaction')
-    permission_classes = [IsAdminUser]
     pagination_class = None
 
 
 class AddTransactionView(views.APIView):
-    permission_classes = [IsAdminUser]
 
     def post(self, request):
         serializer = CustomerTransactionSerializer(data=request.data)

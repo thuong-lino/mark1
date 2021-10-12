@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { creators } from '../../store/auth';
-import { useDispatch, connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
 const paperStyle = { padding: 60, height: '70vh', width: 380, margin: '50px auto' };
 const avatarStyle = { backgroundColor: '#1bbd7e' };
 const btnstyle = { margin: '25px 0' };
@@ -28,7 +27,6 @@ class Login extends React.Component {
     const { username, password } = this.state;
     const { doLogin } = this.props;
     doLogin(username, password);
-    <Redirect to="/"></Redirect>;
   }
   render() {
     const { username, password } = this.state;
@@ -88,6 +86,11 @@ class Login extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.user != null,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     doLogin: (email, password) => {
@@ -95,4 +98,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

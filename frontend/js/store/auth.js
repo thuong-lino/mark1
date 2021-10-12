@@ -1,5 +1,6 @@
 import api from './api';
 import { updateObject } from './utils';
+import { push } from 'connected-react-router';
 
 const types = {
   LOGIN_START: 'LOGIN_START',
@@ -20,8 +21,10 @@ export const creators = {
           expiry_date: res.data.payload.expiry_date,
           firstname: res.data.payload.firstname,
         };
+
         localStorage.setItem('user', JSON.stringify(user));
         dispatch({ type: types.LOGIN_SUCCESS, user });
+        dispatch(push('/'));
       } catch (error) {
         dispatch({ type: types.LOGIN_FAIL, error: error });
       }
