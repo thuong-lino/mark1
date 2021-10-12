@@ -1,41 +1,47 @@
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import React from 'react';
-import logo from '../../../assets/images/profile-user.png';
-import uiImage from '../../../assets/images/ui.svg';
+import React from 'react'
+import { Grid,Paper, Avatar, TextField, Button, Typography,Link } from '@material-ui/core'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+const Login=()=>{
 
-const Login = () => {
-  return (
-    <>
-      <Container className="mt-5">
-        <Row>
-          <Col lg={4} md={6} sm={12} className="text-center mt-5 p-3">
-            <img className="icon-img" src={logo} alt="icon" />
-            <Form className="form">
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="email" placeholder="Enter email" />
-              </Form.Group>
+    const paperStyle={padding :60,height:'70vh',width:380, margin:"50px auto"}
+    const avatarStyle={backgroundColor:'#1bbd7e'}
+    const btnstyle={margin:'25px 0'}
+    return(
+        <Grid>
+            <Paper elevation={10} style={paperStyle}>
+                <Grid align='center'>
+                     <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
+                    <h2>Sign In</h2>
+                </Grid>
+                <TextField label='Username' placeholder='Enter username' fullWidth required/>
+                <TextField label='Password' placeholder='Enter password' type='password' fullWidth required/>
+                <FormControlLabel
+                    control={
+                    <Checkbox
+                        name="checkedB"
+                        color="primary"
+                    />
+                    }
+                    label="Remember me"
+                 />
+                <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth>Sign in</Button>
+                <Typography >
+                      
+                     <Link href="#" >
+                        Forgot password ?
+                </Link>
+                </Typography>
+                <Typography > Do you have an account ?
+                     <Link href="#" >
+                        Sign Up 
+                </Link>
+                </Typography>
+            </Paper>
+        </Grid>
+    )
+}
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Control type="password" placeholder="Password" />
-              </Form.Group>
-
-              <Button variant="primary btn-block" type="submit">
-                Login
-              </Button>
-              <div className="text-left mt-3">
-                <a href="#">
-                  <small className="Signup">Sign up</small>
-                </a>
-              </div>
-            </Form>
-          </Col>
-          <Col lg={8} md={6} sm={12}>
-            <img className="w-100" src={uiImage} alt="" />
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
-};
 
 export default Login;
