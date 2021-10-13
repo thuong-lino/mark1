@@ -6,6 +6,7 @@
   flex: 5.5;
   height: calc(100vh - 50px);
   top: 50px;
+  margin-left: 5px;
 }
 .link {
   text-decoration: none;
@@ -45,7 +46,7 @@
 }
 .sidebarListItem.active,
 .sidebarListItem:hover {
-  background-color: rgb(34 34 34);
+  background-color: #81bdab;
   color: #fff;
 }
 .sidebarIcon {
@@ -134,4 +135,29 @@
 .orderTableId {
   text-align: center !important;
 }
-/*3f51b5*/
+.orderTableRow {
+  cursor: pointer;
+}
+.orderTableRow:hover {
+  background-color: #81bdab !important;
+}
+.backButton {
+  margin-bottom: 2.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 20%;
+  opacity: 0.5;
+}
+.backButton:hover {
+  opacity: 01;
+}
+.headerId {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.orderDetailDate {
+  margin-bottom: 1.4rem;
+}

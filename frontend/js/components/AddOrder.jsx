@@ -19,6 +19,8 @@ export class AddOrder extends Component {
       unit_price: '',
       currency: 'USD',
       customer: null,
+      phone: '',
+      address: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitOrder = this.handleSubmitOrder.bind(this);
@@ -29,7 +31,17 @@ export class AddOrder extends Component {
   }
   async handleSubmitOrder(e) {
     e.preventDefault();
-    const { item, unit, quantity, weight, unit_price, customer, currency } = this.state;
+    const {
+      item,
+      unit,
+      quantity,
+      weight,
+      unit_price,
+      customer,
+      currency,
+      phone,
+      address,
+    } = this.state;
     const { user_id, getOrders, enqueueSnackbar } = this.props;
     const order = {
       user_id,
@@ -40,6 +52,8 @@ export class AddOrder extends Component {
       weight,
       unit_price,
       currency,
+      phone,
+      address,
     };
 
     try {
@@ -50,6 +64,8 @@ export class AddOrder extends Component {
         unit: '',
         quantity: '',
         weight: '',
+        phone: '',
+        address: '',
       });
       getOrders();
     } catch (error) {
@@ -61,7 +77,17 @@ export class AddOrder extends Component {
   }
 
   render() {
-    const { item, unit, quantity, weight, unit_price, customer, currency } = this.state;
+    const {
+      item,
+      unit,
+      quantity,
+      weight,
+      unit_price,
+      customer,
+      currency,
+      phone,
+      address,
+    } = this.state;
     const { customers, errors } = this.props;
     const symbol = currency === 'USD' ? '$' : '₫';
     return (
@@ -168,6 +194,21 @@ export class AddOrder extends Component {
             </Grid>
 
             <Grid item xs={12} className="sendOrderField">
+              <TextField
+                style={{ width: '300px' }}
+                id="address"
+                className="sendOrderItem"
+                helperText="Địa chỉ nhận hàng"
+                onChange={this.handleChange}
+                value={address}
+              />
+              <TextField
+                id="phone"
+                className="sendOrderItem"
+                helperText="Số điện thoại"
+                onChange={this.handleChange}
+                value={phone}
+              />
               <TextField
                 id="currencyy"
                 className="sendOrderItem"

@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Count
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
 from .models import Customer, CustomerTransaction
@@ -34,3 +35,11 @@ class HistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerTransaction
         fields = ['id', 'customer', 'amount', 'created_at']
+
+
+class CustomerListSerializer(serializers.ModelSerializer):
+    total_order = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Customer
+        fields = ['id', 'email', 'firstname', 'phone_number', 'total_order']

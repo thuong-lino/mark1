@@ -1,7 +1,8 @@
-from rest_framework import viewsets, views, status
+from django.db.models.aggregates import Count
+from rest_framework import serializers, viewsets, views, status
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from .serializers import CustomerSerializer, CustomerTransactionSerializer, HistorySerializer
+from .serializers import CustomerSerializer, CustomerTransactionSerializer, HistorySerializer, CustomerListSerializer
 from .models import Customer, CustomerTransaction
 from statement.models import Statement, Period
 from rest_framework.permissions import IsAdminUser
@@ -12,6 +13,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all().order_by('-last_transaction')
     pagination_class = None
+
+    def list(self, request, *args, **kwargs):
+        qs = Customer.objects.annotate(total_order=Count('order'))
+        serializer = CustomerListSerializer(qs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AddTransactionView(views.APIView):

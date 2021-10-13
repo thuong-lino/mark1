@@ -20,7 +20,7 @@ class ReadOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'customer', 'item', 'unit', 'quantity', 'weight',
-                  'unit_price', 'total', 'date_sent', 'date_flight', 'date_received']
+                  'unit_price', 'total', 'date_sent', 'date_flight', 'date_received', 'address', 'phone']
 
 
 class WriteOrderSerializer(serializers.ModelSerializer):
@@ -30,7 +30,7 @@ class WriteOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user_id', 'customer_id', 'item', 'unit', 'quantity',
-                  'weight', 'unit_price', 'currency', "total"]
+                  'weight', 'unit_price', 'currency', "total", 'address', 'phone']
 
     def create(self, data):
         data["period"] = find_period_is_open()

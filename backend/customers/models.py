@@ -23,6 +23,14 @@ class Customer(models.Model):
     def __str__(self):
         return f"{self.id} - {self.phone_number} - {self.firstname}"
 
+    def get_full_name(self):
+        if self.firstname or self.lastname:
+            return ("%s %s" % (self.firstname, self.lastname)).strip()
+        return self.email
+
+    def get_short_name(self):
+        return self.email
+
 
 class API_KEY(models.Model):
     get_link = models.CharField(max_length=255)

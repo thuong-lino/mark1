@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { creators } from '../store/orders';
-import { Button, Chip, IconButton, Typography } from '@material-ui/core';
+import { Button, Chip } from '@material-ui/core';
 import AddOrder from '../components/AddOrder';
 import { HighlightOffOutlined, HourglassEmptyOutlined } from '@material-ui/icons';
+import { push } from 'connected-react-router';
 
 const columns = [
-  { field: 'id', headerName: 'ID', flex: 1, sortable: false, cellClassName: 'orderTableId' },
+  { field: 'id', headerName: 'ID', flex: 0.6, sortable: false, cellClassName: 'orderTableId' },
   {
     field: 'customer',
     headerName: 'Khách Hàng',
@@ -69,17 +69,16 @@ const columns = [
 ];
 
 export default function OrderTable() {
-  //cxonst [orders, setOrders] = useState(null)
   const dispatch = useDispatch();
   const [createMode, setCreateMode] = useState(false);
   let orders = useSelector((state) => state.orders.orders); // use let because DataGrid needed
   const customers = useSelector((state) => state.customers.customers);
-  const errors = useSelector((state) => state.customers.errors);
 
   const handleButtonClick = () => {
     setCreateMode(!createMode);
   };
   const handleOnRowClick = (params) => {
+    dispatch(push(`/orders/${params.row.id}/`));
     console.log('row click', params.row.id);
   };
   const button =
@@ -110,6 +109,7 @@ export default function OrderTable() {
         {orders ? (
           <DataGrid
             rows={orders}
+            getRowClassName={(params) => 'orderTableRow'}
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import CharField
 from users.models import User
 from customers.models import Customer
 from statement.models import Period
@@ -15,6 +16,8 @@ class Order(models.Model):
     quantity = models.IntegerField()
     weight = models.DecimalField(max_digits=6, decimal_places=2)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2)
+    address = models.CharField(max_length=256, blank=True, default="")
+    phone = models.CharField(max_length=20, blank=True, default="")
     total = models.DecimalField(
         max_digits=8, decimal_places=2, default=0, editable=False)
     currency = models.CharField(max_length=3, default='USD')

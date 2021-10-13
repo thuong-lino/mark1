@@ -47,6 +47,11 @@ class OrderViewSet(viewsets.ModelViewSet):
             return ReadOrderSerializer
         return WriteOrderSerializer
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = ReadOrderSerializer(instance)
+        return Response(serializer.data)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
 
