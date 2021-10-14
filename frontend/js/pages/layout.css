@@ -162,3 +162,8 @@
   margin-bottom: 1.4rem;
   opacity: 0.5;
 }
+.orderDetailListItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important;
+}

@@ -87,7 +87,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(
             instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        customer_id = serializer.validated_data['customer_id']
+        customer_id = instance.customer.id
         self.perform_update(serializer)
         # change payment value
         recalculate_needed_paid(instance)

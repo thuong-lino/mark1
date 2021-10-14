@@ -1,7 +1,6 @@
-import { ArrowBack, HourglassEmptyOutlined } from '@material-ui/icons';
+import { ArrowBack, Edit } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import {
-  Chip,
   Paper,
   TableCell,
   TableContainer,
@@ -15,6 +14,7 @@ import {
   List,
   Typography,
   Divider,
+  Button,
 } from '@material-ui/core';
 import { useParams } from 'react-router';
 import api from '../store/api';
@@ -23,15 +23,16 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import OrderStatus from '../components/OrderStatus';
+import EditAddress from '../components/EditAddress';
 
 export default function OrderDetail() {
   const dispatch = useDispatch();
   const [data, setData] = useState();
+  const [editDialog, setEditDialog] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   let { id } = useParams();
   useEffect(() => {
-    console.log(id);
     const order_id = id;
     const getOrderDetail = async () => {
       try {
@@ -46,6 +47,20 @@ export default function OrderDetail() {
     };
     getOrderDetail();
   }, []);
+  const handleSave = (editedAddress) => {
+    try {
+      api.patch(`/api/orders/${id}/`, { ...editedAddress });
+
+      setData({ ...data, address: editedAddress.address, phone: editedAddress.phone });
+      console.log(data);
+      enqueueSnackbar('Lưu thành công', { variant: 'success' });
+    } catch (error) {
+      enqueueSnackbar('Oppps! Lỗi', { variant: 'error' });
+    }
+  };
+  const handleCloseDialog = (isOpen) => {
+    setEditDialog(isOpen);
+  };
   if (data) {
     return (
       <>
@@ -113,10 +128,10 @@ export default function OrderDetail() {
                       <Typography variant="h5">Khách hàng</Typography>
                     </ListItem>
                     <Divider />
-                    <ListItem>
+                    <ListItem className="orderDetailListItem">
                       <Typography variant="body1">{data.customer}</Typography>
                     </ListItem>
-                    <ListItem>
+                    <ListItem className="orderDetailListItem">
                       <Typography
                         component={Link}
                         to={`/customers/${data.customer[0]}/`}
@@ -127,6 +142,31 @@ export default function OrderDetail() {
                       </Typography>
                     </ListItem>
                     <Divider />
+                    <ListItem style={{ justifyContent: 'space-between' }}>
+                      <Typography component="span" variant="h5">
+                        Thông tin liên lạc
+                      </Typography>
+                      <Button>
+                        <Edit
+                          onClick={() => {
+                            setEditDialog(true);
+                          }}
+                        />
+                      </Button>
+                      <EditAddress
+                        onSave={handleSave}
+                        isOpen={editDialog}
+                        onClose={handleCloseDialog}
+                        address={data.address}
+                        phone={data.phone}
+                      />
+                    </ListItem>
+                    <ListItem className="orderDetailListItem">
+                      <Typography variant="body1">{data.address}</Typography>
+                    </ListItem>
+                    <ListItem className="orderDetailListItem">
+                      <Typography variant="body1">{data.phone}</Typography>
+                    </ListItem>
                   </List>
                 </Paper>
               </Grid>
