@@ -22,6 +22,7 @@ import { useSnackbar } from 'notistack';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
+import OrderStatus from '../components/OrderStatus';
 
 export default function OrderDetail() {
   const dispatch = useDispatch();
@@ -65,12 +66,7 @@ export default function OrderDetail() {
         <div className="headerId">
           <Typography variant="h5">
             # {data.id}
-            <Chip
-              style={{ margin: '0px 10px' }}
-              label="Chưa nhận được hàng"
-              color="secondary"
-              variant="outlined"
-            ></Chip>
+            <OrderStatus date_flight={data.date_flight} date_received={data.date_received} />
           </Typography>
         </div>
         <div className="orderDetailDate">
