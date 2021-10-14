@@ -20,7 +20,7 @@ function EditAddress(props) {
     setData({ ...data, [e.target.id]: e.target.value });
   };
   const handleClose = () => {
-    onClose(!isOpen);
+    onClose(false);
   };
   const handleSave = () => {
     onSave(data);

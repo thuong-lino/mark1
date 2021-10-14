@@ -92,6 +92,11 @@ export default function OrderDetail() {
           <Grid item xs={12}>
             <Grid item container justifyContent="space-around" spacing={2}>
               <Grid item xs={12} sm={8}>
+                <Grid item>
+                  {' '}
+                  <Paper style={{ margin: 'auto', width: '200px', height: '200px' }}></Paper>
+                </Grid>
+
                 <Paper elevation={7}>
                   <TableContainer>
                     <Table className="orderDetailTable" aria-label="simple table">
