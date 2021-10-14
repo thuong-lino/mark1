@@ -6,17 +6,20 @@ function OrderStatus(props) {
   const { date_flight, date_received } = props;
   const status = [];
   if (date_flight == null) {
-    status.push(
-      <Chip style={{ marginLeft: '10px' }} label="Hàng chưa được gửi" color="primary"></Chip>
-    );
+    status.push(<Chip style={{ marginLeft: '10px' }} label="CHƯA ĐƯỢC GỬI" color="primary"></Chip>);
   }
   if (date_received == null) {
     status.push(
-      <Chip style={{ marginLeft: '10px' }} label="Chưa nhận được hàng" color="secondary"></Chip>
+      <Chip style={{ marginLeft: '10px' }} label="CHƯA NHẬN ĐƯỢC" color="secondary"></Chip>
     );
   }
   if (date_flight && date_received) {
-    status.push(<Chip style={{ marginLeft: '10px', color: '#79ec79' }} label="Hoàn thành"></Chip>);
+    status.push(
+      <Chip
+        style={{ marginLeft: '10px', color: '#ffffff', backgroundColor: '#43a047' }}
+        label="HOÀN THÀNH"
+      ></Chip>
+    );
   }
 
   return status.map((s, idx) => <span key={idx}>{s}</span>);

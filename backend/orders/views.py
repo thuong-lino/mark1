@@ -45,6 +45,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if (self.request.method == "GET"):
             return ReadOrderSerializer
+        if (self.request.method == "PATCH"):
+            return ReadOrderSerializer
         return WriteOrderSerializer
 
     def retrieve(self, request, *args, **kwargs):

@@ -79,7 +79,6 @@ export default function OrderTable() {
   };
   const handleOnRowClick = (params) => {
     dispatch(push(`/orders/${params.row.id}/`));
-    console.log('row click', params.row.id);
   };
   const button =
     createMode === false ? (

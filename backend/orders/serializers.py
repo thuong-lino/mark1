@@ -15,7 +15,7 @@ class StringSerializer(serializers.StringRelatedField):
 
 class ReadOrderSerializer(serializers.ModelSerializer):
     customer = StringSerializer()
-    date_sent = DateTimeField(format=settings.DATETIME_FORMAT)
+    date_sent = DateTimeField(format='%Y-%m-%d')
 
     class Meta:
         model = Order
