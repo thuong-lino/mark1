@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Hoc from '../Hoc';
+import Customers from '../pages/Customers';
+import CustomersDetails from '../pages/CustomersDetails';
 import DailyTransaction from '../pages/DailyTransaction';
 import OrderDetail from '../pages/OrderDetail';
 import OrderStatus from '../pages/OrderStatus';
@@ -9,11 +11,17 @@ import Statements from '../pages/Statements';
 
 const BaseRouter = () => (
   <Hoc>
-    <Route path="/daily" component={DailyTransaction} />
-    <Route path="/statements" component={Statements} />
+    <Route component={Customers} path="/customers" />
+    <Route component={CustomersDetails} path="/customers/:id" />
+    <Route component={DailyTransaction} path="/daily" />
+    <Route component={Statements} path="/statements" />
     <Switch>
-      <Route exact path="/orders" component={OrderStatus} />
-      <Route path="/orders/:id" component={OrderDetail} />
+      <Route component={OrderStatus} exact path="/orders" />
+      <Route component={OrderDetail} path="/orders/:id" />
+    </Switch>
+    <Switch> 
+      <Route exact path="/customers" component = {Customers}/>
+      <Route path="/customers/:id" component = {CustomersDetails}/>
     </Switch>
   </Hoc>
 );
