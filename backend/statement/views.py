@@ -10,14 +10,27 @@ from .utils import now, find_period_is_open
 
 class StatementView(ListAPIView):
     serializer_class = StatementSerializer
-    queryset = Statement.objects.all()
     filterset_fields = ['period', 'customer']
     permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        queryset = Statement.objects.filter(
+            period=find_period_is_open())
+        period = self.request.query_params.get('period', None)
+        if period != None:
+            print(period)
+            queryset = Statement.objects.filter(
+                period=period)
+        else:
+            print("abc", period)
+
+        return queryset
 
 
 class PeriodView(ListAPIView):
     serializer_class = PeriodSerializer
-    queryset = Period.objects.all()
+    queryset = Period.objects.all().order_by('close_date')
+    pagination_class = None
 
 
 class OpenPeriodView(views.APIView):

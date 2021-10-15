@@ -14,4 +14,4 @@ class StatementSerializer(serializers.ModelSerializer):
 class PeriodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Period
-        fields = ['open_date', 'close_date', 'is_close']
+        fields = ['id', 'open_date', 'close_date', 'is_close']

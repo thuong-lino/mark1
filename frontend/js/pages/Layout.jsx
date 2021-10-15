@@ -34,61 +34,38 @@ class Layout extends Component {
         <div className="container">
           <div className="sidebar">
             <div className="sidebarWrapper">
-              <div className="sidebarMenu">
-                <h3 className="sidebarTitle">
-                  Dashboard
-                  <ul className="sidebarList">
-                    <li className="sidebarListItem">
-                      <Equalizer className="sidebarIcon" /> Biểu đồ
-                    </li>
-                    <Link to="/statements/" className="link">
-                      <li
-                        className={`sidebarListItem ${pathname == '/statements/' ? 'active' : ''}`}
-                      >
-                        <Description className="sidebarIcon" />
-                        Tổng hợp công nợ
-                      </li>
-                    </Link>
-                    <Link to="/daily/" className="link">
-                      <li className={`sidebarListItem ${pathname == '/daily/' ? 'active' : ''}`}>
-                        <Today className="sidebarIcon" />
-                        Phát sinh hằng ngày
-                      </li>
-                    </Link>
-                    <li className="sidebarListItem">
-                      <TrendingUp className="sidebarIcon" />
-                      Phân tích
-                    </li>
-                  </ul>
-                </h3>
-              </div>
-              <div className="sidebarMenu">
-                <h3 className="sidebarTitle">
-                  Đơn Hàng
-                  <ul className="sidebarList">
-                    <Link to="/orders/" className="link">
-                      <li className="sidebarListItem">
-                        <FlightTakeoff className="sidebarIcon" /> Tình trạng đơn hàng
-                      </li>
-                    </Link>
-                    <li className="sidebarListItem">
-                      <Edit className="sidebarIcon" />
-                      Sửa đơn hàng
-                    </li>
-                  </ul>
-                </h3>
-              </div>
-              <div className="sidebarMenu">
-                <h3 className="sidebarTitle">
-                  Khách hàng
-                  <ul className="sidebarList">
-                    <li className="sidebarListItem">
-                      <PermIdentity className="sidebarIcon" />
-                      Thông tin khách hàng
-                    </li>
-                  </ul>
-                </h3>
-              </div>
+              <ul className="sidebarList">
+                <li className="sidebarListItem">
+                  <Equalizer className="sidebarIcon" /> Biểu đồ
+                </li>
+                <Link to="/statements/" className="link">
+                  <li className={`sidebarListItem ${pathname == '/statements/' ? 'active' : ''}`}>
+                    <Description className="sidebarIcon" />
+                    Tổng hợp công nợ
+                  </li>
+                </Link>
+                <Link to="/daily/" className="link">
+                  <li className={`sidebarListItem ${pathname == '/daily/' ? 'active' : ''}`}>
+                    <Today className="sidebarIcon" />
+                    Phát sinh hằng ngày
+                  </li>
+                </Link>
+                <Link to="/orders/" className="link">
+                  <li className={`sidebarListItem ${pathname == '/orders/' ? 'active' : ''}`}>
+                    <FlightTakeoff className="sidebarIcon" /> Đơn hàng
+                  </li>
+                </Link>
+                <Link to="/customers/" className="link">
+                  <li className={`sidebarListItem ${pathname == '/customers/' ? 'active' : ''}`}>
+                    <PermIdentity className="sidebarIcon" />
+                    Khách hàng
+                  </li>
+                </Link>
+                <li className={`sidebarListItem ${pathname == '/analyst/' ? 'active' : ''}`}>
+                  <TrendingUp className="sidebarIcon" />
+                  Phân tích
+                </li>
+              </ul>
             </div>
           </div>
           <div className="mainPage">{this.props.children}</div>

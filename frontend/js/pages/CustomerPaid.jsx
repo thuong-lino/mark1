@@ -11,18 +11,23 @@ const columns = [
   {
     field: 'customer',
     headerName: 'Khách Hàng',
-    width: 200,
+    width: 300,
     sortable: false,
-  },
-  {
-    field: 'amount',
-    headerName: 'Số tiền',
-    width: 150,
   },
   {
     field: 'created_at',
     headerName: 'Ngày / Giờ',
     width: 170,
+  },
+  {
+    field: 'amount',
+    headerName: 'Số tiền',
+    headerAlign: 'right',
+    cellClassName: 'orderTableTotal',
+    valueFormatter: (params) => {
+      return `$ ${params.row.amount}`;
+    },
+    width: 150,
   },
 ];
 
