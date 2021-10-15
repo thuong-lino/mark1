@@ -10,7 +10,7 @@ export class AddTransaction extends Component {
     this.state = {
       customer: null,
       amount: '',
-      currency: 'USD',
+      currency: 'GBP',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,6 +65,7 @@ export class AddTransaction extends Component {
                 inputProps={{
                   style: { textAlign: 'center' },
                   min: '0',
+                  step: '0.01',
                   type: 'number',
                 }}
                 InputProps={{ endAdornment: symbol }}
@@ -87,6 +88,7 @@ export class AddTransaction extends Component {
                   USD
                 </MenuItem>
                 <MenuItem value="VND">VND</MenuItem>
+                <MenuItem value="GBP">GBP</MenuItem>
               </TextField>
             </MyFormControl>
 

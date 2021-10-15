@@ -45,11 +45,11 @@ function SelectPeriods(props) {
                   key={id}
                   value={id}
                   style={{ fontWeight: 'bold' }}
-                >{`${open_date} --> hiện tại`}</MenuItem>
+                >{`${open_date} đến hiện tại`}</MenuItem>
               );
             } else {
               menuItem = (
-                <MenuItem key={id} value={id}>{`${open_date} --> ${close_date}`}</MenuItem>
+                <MenuItem key={id} value={id}>{`${open_date} đến ${close_date}`}</MenuItem>
               );
             }
             return menuItem;

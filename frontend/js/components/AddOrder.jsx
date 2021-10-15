@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Grid, Typography, TextField, MenuItem } from '@material-ui/core';
+import { Button, Grid, Typography, TextField, MenuItem, Fab, IconButton } from '@material-ui/core';
 import { MyFormControl } from './CustomMui';
 import { Autocomplete } from '@material-ui/lab';
 import { creators } from '../store/orders';
 import api from '../store/api';
 import { withSnackbar } from 'notistack';
+import { Add } from '@material-ui/icons';
+import AddCustomerDialog from '../pages/AddCustomerDialog';
+import { symbols } from '../constants';
 
 export class AddOrder extends Component {
   constructor(props) {
@@ -17,17 +20,22 @@ export class AddOrder extends Component {
       quantity: '',
       weight: '',
       unit_price: '',
-      currency: 'USD',
+      currency: 'GBP',
       customer: null,
       phone: '',
       address: '',
+      customerDialogOpen: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitOrder = this.handleSubmitOrder.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
   handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
+  }
+  handleDialogClose(close) {
+    this.setState({ customerDialogOpen: close });
   }
   async handleSubmitOrder(e) {
     e.preventDefault();
@@ -42,9 +50,10 @@ export class AddOrder extends Component {
       phone,
       address,
     } = this.state;
-    const { user_id, getOrders, enqueueSnackbar } = this.props;
+    const { user, getOrders, enqueueSnackbar } = this.props;
+    console.log(user.user_id);
     const order = {
-      user_id,
+      user_id: user.user_id,
       customer_id: customer.id,
       item,
       unit,
@@ -87,16 +96,13 @@ export class AddOrder extends Component {
       currency,
       phone,
       address,
+      customerDialogOpen,
     } = this.state;
     const { customers, errors } = this.props;
-    const symbol = currency === 'USD' ? '$' : '₫';
+    const symbol = symbols(currency);
     return (
       <>
         <Grid spacing={1} container>
-          <Grid item xs={12}>
-            {errors ? <Typography color="error"> {errors.error}</Typography> : null}
-          </Grid>
-
           <Grid item xs={12}>
             <Typography component="h4" variant="h4">
               Thêm đơn
@@ -104,22 +110,37 @@ export class AddOrder extends Component {
           </Grid>
           <form onSubmit={this.handleSubmitOrder}>
             <Grid item xs={12} className="inputField">
-              <MyFormControl style={{ top: '-12px' }}>
-                <Autocomplete
-                  id="controled"
-                  options={customers ? customers : []}
-                  getOptionLabel={(option) => option.phone_number + ' ' + option.firstname}
-                  onChange={(e, value) => {
-                    this.setState({ customer: value });
-                  }}
-                  value={customer}
-                  style={{ width: 300 }}
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Fab
+                  style={{ marginTop: 5 }}
                   size="small"
-                  renderInput={(params) => (
-                    <TextField {...params} label="Chọn khách hàng" required />
-                  )}
-                />
-              </MyFormControl>
+                  onClick={() => {
+                    this.setState({ customerDialogOpen: true });
+                  }}
+                >
+                  <Add />
+                </Fab>
+
+                <AddCustomerDialog open={customerDialogOpen} onClose={this.handleDialogClose} />
+
+                <MyFormControl style={{ top: '-12px' }}>
+                  <Autocomplete
+                    id="controled"
+                    options={customers ? customers : []}
+                    getOptionLabel={(option) => option.phone_number + ' ' + option.firstname}
+                    onChange={(e, value) => {
+                      this.setState({ customer: value });
+                    }}
+                    value={customer}
+                    style={{ width: 300 }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField {...params} margin="none" label="Chọn khách hàng" required />
+                    )}
+                  />
+                </MyFormControl>
+              </div>
+              .
               <MyFormControl>
                 <TextField
                   id="item"
@@ -168,7 +189,7 @@ export class AddOrder extends Component {
                   id="unit_price"
                   required
                   onChange={this.handleChange}
-                  helperText="đơn giá"
+                  helperText="Giá / Kg"
                   value={unit_price}
                   inputProps={{
                     style: { textAlign: 'center' },
@@ -182,12 +203,14 @@ export class AddOrder extends Component {
               <MyFormControl style={{ width: 100 }}>
                 <TextField
                   id="total"
-                  value={Math.round(weight * unit_price * 100) / 100}
+                  value={`${Math.round(weight * unit_price * 100) / 100} ${symbol}`}
+                  variant="outlined"
+                  margin="dense"
                   disabled
-                  helperText="thành tiền"
+                  helperText="Thành tiền"
                   inputProps={{
-                    style: { textAlign: 'center' },
-                    type: 'number',
+                    style: { textAlign: 'center', fontWeight: 'bold' },
+                    type: 'text',
                   }}
                 />
               </MyFormControl>
@@ -224,6 +247,7 @@ export class AddOrder extends Component {
                   USD
                 </MenuItem>
                 <MenuItem value="VND">VND</MenuItem>
+                <MenuItem value="GBP">GBP</MenuItem>
               </TextField>
               <Button variant="outlined" className="sendOrderItem" color="primary" type="submit">
                 Tạo
@@ -237,7 +261,7 @@ export class AddOrder extends Component {
 }
 const mstp = (state) => {
   return {
-    user_id: state.auth.user.user_id,
+    user: state.auth.user,
   };
 };
 const mdtp = (dispatch) => {

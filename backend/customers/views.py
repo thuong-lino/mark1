@@ -25,12 +25,12 @@ class AddTransactionView(views.APIView):
     def post(self, request):
         serializer = CustomerTransactionSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            print(serializer.validated_data)
-            customer_id = serializer.data['customer_id']
-            amount = serializer.data["amount"]
-            currency = serializer.data['currency']
+            amount = serializer.validated_data["amount"]
+            currency = serializer.validated_data['currency']
             base_amount = actions.currency_to_USD(currency, amount)
+            serializer.validated_data['amount'] = base_amount
+            serializer.save()
+            customer_id = serializer.data['customer_id']
             #base_amount = amount
             peridod_qs = Period.objects.filter(is_close=False)
             if peridod_qs.exists():
@@ -46,5 +46,5 @@ class AddTransactionView(views.APIView):
 
 class HistoryView(ListAPIView):
     serializer_class = HistorySerializer
-    queryset = CustomerTransaction.objects.all().order_by('-created_at')
-    permission_classes = [IsAdminUser]
+    queryset = CustomerTransaction.objects.all().order_by('-created_at')[:50]
+    pagination_class = None

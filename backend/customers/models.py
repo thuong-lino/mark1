@@ -9,19 +9,19 @@ class Customer(models.Model):
     lastname = models.CharField(max_length=30)
     phone_number = models.CharField(max_length=12, default='')
     email = models.EmailField(
-        max_length=100, unique=True, null=True, blank=True)
-    TIN = models.CharField(max_length=13, unique=True,
-                           verbose_name="Mã số thuế")
+        max_length=100, null=True, blank=True)
+    TIN = models.CharField(max_length=13, null=True, blank=True)
     DOB = models.DateField(verbose_name="Ngày Sinh", null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
-    makhachhang = models.CharField(max_length=5, default='131')
+    makhachhang = models.CharField(
+        max_length=5, default='131', null=True, blank=True)
     last_transaction = models.DateTimeField(
         default=timezone.now, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.id} - {self.phone_number} - {self.firstname}"
+        return f"{self.id} - {self.firstname} - {self.phone_number}"
 
     def get_full_name(self):
         if self.firstname or self.lastname:
@@ -30,6 +30,11 @@ class Customer(models.Model):
 
     def get_short_name(self):
         return self.email
+
+
+"""
+API_KEY.objects.create(get_link='https://openexchangerates.org/api/latest.json?&base=USD&app_id=',api_key='6ecc849c094546cd8e284cf353913734',title ='update_rates')
+"""
 
 
 class API_KEY(models.Model):

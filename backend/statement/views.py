@@ -18,11 +18,8 @@ class StatementView(ListAPIView):
             period=find_period_is_open())
         period = self.request.query_params.get('period', None)
         if period != None:
-            print(period)
             queryset = Statement.objects.filter(
                 period=period)
-        else:
-            print("abc", period)
 
         return queryset
 
@@ -58,6 +55,11 @@ class ClosePeriodView(views.APIView):
             new_period = Period(is_close=False)
             new_period.save()
             for statement in statements:
+                """
+                If close debit equal to close credit => donot create new statement
+                """
+                if statement.close_debit == statement.close_credit:
+                    continue
                 new_debit = statement.close_debit
                 new_credit = statement.close_credit
                 customer = statement.customer

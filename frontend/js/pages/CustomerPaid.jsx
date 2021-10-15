@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { creators } from '../store/customers';
 import AddTransaction from '../components/AddTransaction';
 import api from '../store/api';
+import { symbols } from '../constants';
 const columns = [
   { field: 'id', headerName: 'ID', width: 70, sortable: false },
   {
@@ -25,7 +26,8 @@ const columns = [
     headerAlign: 'right',
     cellClassName: 'orderTableTotal',
     valueFormatter: (params) => {
-      return `$ ${params.row.amount}`;
+      const symbol = symbols('USD');
+      return `${symbol} ${params.row.amount}`;
     },
     width: 150,
   },
@@ -84,7 +86,7 @@ export default function CustomerPaid() {
       <div style={{ height: 600, width: '100%', margin: '10px 0px' }}>
         {transactions ? (
           <DataGrid
-            rows={transactions.results}
+            rows={transactions}
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}

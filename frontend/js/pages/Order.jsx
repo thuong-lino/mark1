@@ -5,7 +5,7 @@ import { Button, Chip } from '@material-ui/core';
 import AddOrder from '../components/AddOrder';
 import { HighlightOffOutlined, HourglassEmptyOutlined } from '@material-ui/icons';
 import { push } from 'connected-react-router';
-
+import { symbols } from '../constants';
 const columns = [
   { field: 'id', headerName: 'ID', flex: 0.6, sortable: false, cellClassName: 'orderTableId' },
   {
@@ -63,7 +63,8 @@ const columns = [
     flex: 1.5,
 
     valueFormatter: (params) => {
-      return `$ ${params.row.total}`;
+      const symbol = symbols(params.row.currency);
+      return `${symbol} ${params.row.total}`;
     },
   },
 ];

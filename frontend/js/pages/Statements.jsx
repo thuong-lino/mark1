@@ -21,6 +21,7 @@ const columns = [
     field: 'customer',
     headerName: 'Khách Hàng',
     width: 150,
+    editable: true,
     sortable: false,
   },
   {
@@ -105,6 +106,7 @@ export default function Statements() {
       await api.post('/api/statements/close_period/');
       enqueueSnackbar('Đóng kỳ hành công', { variant: 'success' });
       enqueueSnackbar('Mở kỳ mới thành công', { variant: 'success' });
+      setCurrentPeriod(currentPeriod + 1);
     } catch (error) {
       enqueueSnackbar('Oopss! Lỗi', { variant: 'error' });
     }

@@ -1,3 +1,4 @@
+from enum import unique
 from django.db.models.aggregates import Count
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
@@ -10,11 +11,11 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=False)
+    DOB = serializers.DateField(input_formats=['%d/%m/%Y'], required=False)
 
     class Meta:
         model = Customer
-        fields = ['id', 'firstname', 'lastname', 'phone_number', 'DOB',
+        fields = ['id', 'firstname', 'lastname', 'phone_number', 'DOB', 'makhachhang',
                   'email', 'TIN', 'address', 'last_transaction']
 
 

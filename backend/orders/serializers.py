@@ -19,7 +19,7 @@ class ReadOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'item', 'unit', 'quantity', 'weight',
+        fields = ['id', 'customer', 'item', 'unit', 'quantity', 'weight', 'currency',
                   'unit_price', 'total', 'date_sent', 'date_flight', 'date_received', 'address', 'phone']
 
 
