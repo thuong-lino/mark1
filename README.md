@@ -40,6 +40,7 @@
 
 #### Run the backend app
 
+- Activate the environment `source mark1-venv/bin/activate`
 - With the virtualenv enabled, go to the `backend` directory
 - Run the project:
   `python manage.py runserver`
