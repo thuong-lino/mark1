@@ -5,12 +5,14 @@ import Hoc from '../Hoc';
 import Customers from '../pages/Customers';
 import CustomersDetails from '../pages/CustomersDetails';
 import DailyTransaction from '../pages/DailyTransaction';
+import DashBoard from '../pages/DashBoard';
 import OrderDetail from '../pages/OrderDetail';
 import SearchOrder from '../pages/SearchOrder';
 import Statements from '../pages/Statements';
 
 const BaseRouter = () => (
   <Hoc>
+    <Route exact path="/" component={DashBoard} />
     <Route component={Customers} path="/customers" />
     <Route component={CustomersDetails} path="/customers/:id" />
     <Route component={DailyTransaction} path="/daily" />

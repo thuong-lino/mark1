@@ -56,10 +56,13 @@ class MonthlyOrderSerializer(serializers.Serializer):
 class OrderStatisticsSerializer(serializers.Serializer):
     orders_today = serializers.IntegerField()
     orders_yesterday = serializers.IntegerField()
-    amount_today = serializers.DecimalField(
-        max_digits=10, decimal_places=2)
+    order_rate = serializers.DecimalField(max_digits=10, decimal_places=2)
+    amount_today = serializers.DecimalField(max_digits=10, decimal_places=2)
     amount_yesterday = serializers.DecimalField(
         max_digits=10, decimal_places=2)
+    amount_rate = serializers.DecimalField(max_digits=10, decimal_places=2)
     orders_in_month = serializers.IntegerField()
     orders_in_previous_month = serializers.IntegerField()
+    order_month_rate = serializers.DecimalField(
+        max_digits=10, decimal_places=2)
     monthly = MonthlyOrderSerializer(many=True)

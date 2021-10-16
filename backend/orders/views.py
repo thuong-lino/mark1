@@ -1,4 +1,5 @@
 from datetime import time, timedelta
+from decimal import Decimal
 from rest_framework import serializers, viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
@@ -8,7 +9,7 @@ from .serializers import OrderStatisticsSerializer, ReadOrderSerializer, WriteOr
 from .utils import total_order_in_current_month, total_order_in_previous_month, orders_in_month, orders_today, orders_yesterday, order_totals_today, order_totals_yesterday
 from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
 from statement.utils import find_period_is_open
-from common.utils.actions import now
+
 buddha = """
                                   _
                                _ooOoo_
@@ -148,5 +149,21 @@ class OrderStatistics(views.APIView):
         data.update(order_totals_today())
         data.update(order_totals_yesterday())
         data.update({"monthly": monthly})
+        try:
+            order_rate = abs(1-data['orders_today']/data['orders_yesterday'])
+            data.update({"order_rate": order_rate})
+        except ZeroDivisionError:
+            data.update({"order_rate": Decimal('100.00')})
+        try:
+            amount_rate = abs(1-data['amount_today']/data['amount_yesterday'])
+            data.update({"amount_rate": amount_rate})
+        except ZeroDivisionError:
+            data.update({"amount_rate": Decimal('100.00')})
+        try:
+            order_month_rate = abs(
+                1-data['orders_in_month']/data['orders_in_previous_month'])
+            data.update({"order_month_rate": order_month_rate})
+        except ZeroDivisionError:
+            data.update({"order_month_rate": Decimal('100.00')})
         serializer = OrderStatisticsSerializer(data)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

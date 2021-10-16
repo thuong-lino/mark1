@@ -34,9 +34,11 @@ class Layout extends Component {
           <div className="sidebar">
             <div className="sidebarWrapper">
               <ul className="sidebarList">
-                <li className="sidebarListItem">
-                  <Equalizer className="sidebarIcon" /> Biểu đồ
-                </li>
+                <Link to="/" className="link">
+                  <li className={`sidebarListItem ${pathname == '/' ? 'active' : ''}`}>
+                    <Equalizer className="sidebarIcon" /> Biểu đồ
+                  </li>
+                </Link>
                 <Link to="/statements/" className="link">
                   <li className={`sidebarListItem ${pathname == '/statements/' ? 'active' : ''}`}>
                     <Description className="sidebarIcon" />

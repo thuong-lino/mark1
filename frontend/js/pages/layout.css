@@ -169,3 +169,26 @@
   flex-direction: column;
   align-items: flex-start !important;
 }
+.WidgetDashboar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.HeaderWidgetDashboard {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.FooterWidgetDashboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.stonks {
+  color: #008743;
+}
+.stinks {
+  color: rgb(189, 0, 0);
+}
