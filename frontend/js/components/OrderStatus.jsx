@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Chip } from '@material-ui/core';
 
-function OrderStatus(props) {
+function SearchOrder(props) {
   const { date_flight, date_received } = props;
   const status = [];
   if (date_flight == null) {
@@ -25,9 +25,9 @@ function OrderStatus(props) {
   return status.map((s, idx) => <span key={idx}>{s}</span>);
 }
 
-OrderStatus.propTypes = {
+SearchOrder.propTypes = {
   date_flight: PropTypes.string,
   date_received: PropTypes.string,
 };
 
-export default OrderStatus;
+export default SearchOrder;

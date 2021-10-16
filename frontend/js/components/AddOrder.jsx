@@ -51,7 +51,6 @@ export class AddOrder extends Component {
       address,
     } = this.state;
     const { user, getOrders, enqueueSnackbar } = this.props;
-    console.log(user.user_id);
     const order = {
       user_id: user.user_id,
       customer_id: customer.id,
@@ -135,7 +134,7 @@ export class AddOrder extends Component {
                     style={{ width: 300 }}
                     size="small"
                     renderInput={(params) => (
-                      <TextField {...params} margin="none" label="Chọn khách hàng" required />
+                      <TextField {...params} margin="none" label="Nhập khách hàng" required />
                     )}
                   />
                 </MyFormControl>

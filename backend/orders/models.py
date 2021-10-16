@@ -3,6 +3,7 @@ from django.db.models.fields import CharField
 from users.models import User
 from customers.models import Customer
 from statement.models import Period
+from rest_framework.reverse import reverse
 
 
 class Order(models.Model):
@@ -31,3 +32,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.customer} - {self.item}"
+
+    def get_absolute_url(self):
+        return reverse("order-detail", kwargs={"pk": self.pk})

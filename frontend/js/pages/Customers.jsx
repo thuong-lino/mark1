@@ -6,7 +6,6 @@ const Customers = () => {
     const fetchCustomerList = async () => {
       try {
         const res = await api.get('/api/customers/');
-        console.log(res.data);
         setData(res.data);
       } catch (error) {
         console.log(error);
@@ -14,8 +13,6 @@ const Customers = () => {
     };
     fetchCustomerList();
   }, []);
-
-  console.log(data);
 
   return (
     <div>

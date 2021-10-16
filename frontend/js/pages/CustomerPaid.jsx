@@ -45,7 +45,6 @@ export default function CustomerPaid() {
     setCreateMode(!createMode);
   };
   const handleSubmit = (transaction) => {
-    console.log(transaction);
     api
       .post('/api/customers/add_transaction/', transaction)
       .then((res) => {

@@ -6,7 +6,7 @@ import Customers from '../pages/Customers';
 import CustomersDetails from '../pages/CustomersDetails';
 import DailyTransaction from '../pages/DailyTransaction';
 import OrderDetail from '../pages/OrderDetail';
-import OrderStatus from '../pages/OrderStatus';
+import SearchOrder from '../pages/SearchOrder';
 import Statements from '../pages/Statements';
 
 const BaseRouter = () => (
@@ -16,12 +16,12 @@ const BaseRouter = () => (
     <Route component={DailyTransaction} path="/daily" />
     <Route component={Statements} path="/statements" />
     <Switch>
-      <Route component={OrderStatus} exact path="/orders" />
+      <Route component={SearchOrder} exact path="/orders" />
       <Route component={OrderDetail} path="/orders/:id" />
     </Switch>
-    <Switch> 
-      <Route exact path="/customers" component = {Customers}/>
-      <Route path="/customers/:id" component = {CustomersDetails}/>
+    <Switch>
+      <Route exact path="/customers" component={Customers} />
+      <Route path="/customers/:id" component={CustomersDetails} />
     </Switch>
   </Hoc>
 );

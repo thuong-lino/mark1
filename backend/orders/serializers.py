@@ -36,6 +36,7 @@ class WriteOrderSerializer(serializers.ModelSerializer):
         data["period"] = find_period_is_open()
         currency = data['currency']
         data['unit_price'] = currency_to_USD(currency, data['unit_price'])
+        data['currency'] = 'USD'
         if type(data['weight']) == str:
             data['weight'] = Decimal(data['weight'])
         order = Order.objects.create(**data)

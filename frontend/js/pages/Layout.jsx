@@ -8,10 +8,9 @@ import { Link } from 'react-router-dom';
 import './layout.css';
 import {
   Description,
-  Edit,
   Equalizer,
-  FlightTakeoff,
   PermIdentity,
+  ShoppingCart,
   Today,
   TrendingUp,
 } from '@material-ui/icons';
@@ -52,7 +51,7 @@ class Layout extends Component {
                 </Link>
                 <Link to="/orders/" className="link">
                   <li className={`sidebarListItem ${pathname == '/orders/' ? 'active' : ''}`}>
-                    <FlightTakeoff className="sidebarIcon" /> Đơn hàng
+                    <ShoppingCart className="sidebarIcon" /> Tìm đơn hàng
                   </li>
                 </Link>
                 <Link to="/customers/" className="link">
