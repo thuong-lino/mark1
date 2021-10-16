@@ -1,3 +1,4 @@
+from re import search
 from django.conf import settings
 from rest_framework import serializers
 from rest_framework.fields import DateTimeField
@@ -45,3 +46,20 @@ class WriteOrderSerializer(serializers.ModelSerializer):
             return order
         except:
             return False
+
+
+class MonthlyOrderSerializer(serializers.Serializer):
+    day = serializers.DateField()
+    total_order = serializers.IntegerField()
+
+
+class OrderStatisticsSerializer(serializers.Serializer):
+    orders_today = serializers.IntegerField()
+    orders_yesterday = serializers.IntegerField()
+    amount_today = serializers.DecimalField(
+        max_digits=10, decimal_places=2)
+    amount_yesterday = serializers.DecimalField(
+        max_digits=10, decimal_places=2)
+    orders_in_month = serializers.IntegerField()
+    orders_in_previous_month = serializers.IntegerField()
+    monthly = MonthlyOrderSerializer(many=True)

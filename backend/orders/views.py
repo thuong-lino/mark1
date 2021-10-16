@@ -1,11 +1,14 @@
-from rest_framework import viewsets, status, views, reverse
+from datetime import time, timedelta
+from rest_framework import serializers, viewsets, status, views
 from rest_framework.response import Response
 from .models import Order
 from payments.models import Payment
 from statement.models import Statement
-from .serializers import ReadOrderSerializer, WriteOrderSerializer
+from .serializers import OrderStatisticsSerializer, ReadOrderSerializer, WriteOrderSerializer
+from .utils import total_order_in_current_month, total_order_in_previous_month, orders_in_month, orders_today, orders_yesterday, order_totals_today, order_totals_yesterday
 from payments.utils import recalculate_needed_paid, recalculate_transaction_debit
 from statement.utils import find_period_is_open
+from common.utils.actions import now
 buddha = """
                                   _
                                _ooOoo_
@@ -116,3 +119,34 @@ class OrderSeacrhView(views.APIView):
             return Response(status=status.HTTP_200_OK)
         except:
             return Response({'msg': "Không tìm thấy dữ liệu"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderStatistics(views.APIView):
+    """
+    {
+        "orders_today": <int>,
+        "orders_yesterday": <int>,
+        "order_total_today": <decimal>,
+        "order_total_yesterday": <decimal>,
+        "orders_in_month": ,
+        "orders_in_previous_month": ,
+        "monthly" : {
+            "day": <date>,
+            "total_order" : <int>
+        }
+    }
+    """
+
+    def get(self, request):
+        monthly = list(orders_in_month())
+        data = {
+            "orders_today": orders_today(),
+            "orders_yesterday": orders_yesterday(),
+            "orders_in_month": total_order_in_current_month(),
+            "orders_in_previous_month": total_order_in_previous_month()
+        }
+        data.update(order_totals_today())
+        data.update(order_totals_yesterday())
+        data.update({"monthly": monthly})
+        serializer = OrderStatisticsSerializer(data)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
