@@ -30,7 +30,13 @@ function Chart(props) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="total_order" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line
+          type="monotone"
+          dataKey="total_order"
+          name="số lượng đơn hàng"
+          stroke="#3f51b5"
+          activeDot={{ r: 8 }}
+        />
       </LineChart>
     </ResponsiveContainer>
   );
