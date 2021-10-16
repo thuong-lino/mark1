@@ -150,20 +150,35 @@ class OrderStatistics(views.APIView):
         data.update(order_totals_yesterday())
         data.update({"monthly": monthly})
         try:
-            order_rate = abs(1-data['orders_today']/data['orders_yesterday'])
-            data.update({"order_rate": order_rate})
+            if (data['orders_today'] != 0):
+                order_rate = abs(1-data['orders_today'] /
+                                 data['orders_yesterday']) * 100
+                data.update({"order_rate": order_rate})
+            else:
+                data.update({"order_rate":  Decimal('0.00')})
         except ZeroDivisionError:
             data.update({"order_rate": Decimal('100.00')})
         try:
-            amount_rate = abs(1-data['amount_today']/data['amount_yesterday'])
-            data.update({"amount_rate": amount_rate})
+            if (data['amount_today'] != 0):
+
+                amount_rate = abs(
+                    1-data['amount_today']/data['amount_yesterday']) * 100
+                data.update({"amount_rate": amount_rate})
+            else:
+                data.update({"amount_rate":  Decimal('0.00')})
+
         except ZeroDivisionError:
             data.update({"amount_rate": Decimal('100.00')})
         try:
-            order_month_rate = abs(
-                1-data['orders_in_month']/data['orders_in_previous_month'])
-            data.update({"order_month_rate": order_month_rate})
+            if (data['orders_in_month'] != 0):
+                order_month_rate = abs(
+                    1-data['orders_in_month']/data['orders_in_previous_month']) * 100
+                data.update({"order_month_rate": order_month_rate})
+            else:
+                data.update({"order_month_rate":  Decimal('0.00')})
         except ZeroDivisionError:
             data.update({"order_month_rate": Decimal('100.00')})
+
         serializer = OrderStatisticsSerializer(data)
+
         return Response(data=serializer.data, status=status.HTTP_200_OK)

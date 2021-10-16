@@ -33,7 +33,10 @@ def order_totals_today() -> dict:
     """
     begin = now().replace(hour=0, minute=0, second=0)
     qs = Order.objects.filter(date_sent__gte=begin)
-    return qs.aggregate(amount_today=Sum('total'))
+    data = qs.aggregate(amount_today=Sum('total'))
+    if (data['amount_today'] == None):  # have not order yet
+        data['amount_today'] = Decimal('0.00')
+    return data
 
 
 def order_totals_yesterday() -> dict:

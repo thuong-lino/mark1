@@ -37,7 +37,7 @@ const DashBoard = () => {
     };
     fetchData();
   }, []);
-  if (data.orders_today) {
+  if (data.monthly) {
     const orderUp = data.orders_today >= data.orders_yesterday;
     const amountUp = data.amount_today >= data.amount_yesterday;
     const orderMonthUp = data.orders_in_month >= data.orders_in_previous_month;
@@ -87,7 +87,7 @@ const DashBoard = () => {
                         {data.amount_today} US$
                       </Typography>
                     </div>
-                    <div className={`FooterWidgetDashboard ${orderUp ? 'stonks' : 'stinks'}`}>
+                    <div className={`FooterWidgetDashboard ${amountUp ? 'stonks' : 'stinks'}`}>
                       <Typography component="span" variant="body1">
                         {data.amount_rate}%
                       </Typography>
@@ -113,7 +113,7 @@ const DashBoard = () => {
                         {data.orders_in_month}
                       </Typography>
                     </div>
-                    <div className={`FooterWidgetDashboard ${orderUp ? 'stonks' : 'stinks'}`}>
+                    <div className={`FooterWidgetDashboard ${orderMonthUp ? 'stonks' : 'stinks'}`}>
                       <Typography component="span" variant="body1">
                         {data.order_month_rate}%
                       </Typography>
