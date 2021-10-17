@@ -94,7 +94,8 @@ const DashBoard = () => {
                       {amountUp ? <ArrowUpward /> : <ArrowDownward />}
                     </div>
                     <Typography component="span" variant="overline">
-                      Số đơn hôm qua: {<strong>{data.amount_yesterday} </strong>}
+                      Tổng tiền hôm qua:{' '}
+                      {<strong>{data.amount_yesterday ? data.amount_yesterday : 0} </strong>}
                     </Typography>
                   </div>
                 </Paper>

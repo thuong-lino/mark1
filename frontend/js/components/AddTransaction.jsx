@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography, Grid, MenuItem } from '@material-ui/core';
 import { MyFormControl } from './CustomMui';
 import { Autocomplete } from '@material-ui/lab';
+import { symbols } from '../constants';
 
 export class AddTransaction extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export class AddTransaction extends Component {
   render() {
     const { customer, amount, currency } = this.state;
     const { errors, customers } = this.props;
-    const symbol = currency === 'USD' ? '$' : '₫';
+    const symbol = symbols(currency);
     return (
       <Grid spacing={1} container>
         <Grid item xs={12}>

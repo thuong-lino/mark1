@@ -26,7 +26,7 @@ class StatementView(ListAPIView):
 
 class PeriodView(ListAPIView):
     serializer_class = PeriodSerializer
-    queryset = Period.objects.all().order_by('close_date')
+    queryset = Period.objects.all().order_by('-id')
     pagination_class = None
 
 

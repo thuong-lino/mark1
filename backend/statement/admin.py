@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Period, Statement
+from .models import Period
 
 admin.site.register(Period)
-admin.site.register(Statement)

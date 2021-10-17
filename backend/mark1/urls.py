@@ -1,7 +1,6 @@
 from django.conf.urls import include
 from django.urls import path
 from django.contrib import admin
-from users.views import FacebookLogin
 
 import django_js_reverse.views
 from rest_framework.routers import DefaultRouter
@@ -23,6 +22,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls'), name='rest_auth'),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
     path("api/", include(router.urls), name="api"),
 ]
