@@ -201,3 +201,7 @@
 .total_order {
   text-align: center !important;
 }
+.customerWrapper {
+  display: flex;
+  justify-content: flex-start;
+}
