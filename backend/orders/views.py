@@ -167,7 +167,7 @@ class OrderStatistics(views.APIView):
             else:
                 data.update({"amount_rate":  Decimal('0.00')})
 
-        except ZeroDivisionError:
+        except:
             data.update({"amount_rate": Decimal('100.00')})
         try:
             if (data['orders_in_month'] != 0):
