@@ -42,7 +42,6 @@ class WriteOrderSerializer(serializers.ModelSerializer):
             data['weight'] = Decimal(data['weight'])
         order = Order.objects.create(**data)
         try:
-
             return order
         except:
             return False

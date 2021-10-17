@@ -1,11 +1,9 @@
 import React from 'react';
 import { NotificationsNone, Settings, ExitToApp } from '@material-ui/icons';
 import { Link, useHistory } from 'react-router-dom';
-import api from '../store/api';
 
 export default function Topbar(props) {
-  const history = useHistory();
-  const { doLogout } = props;
+  const { doLogout, push } = props;
   return (
     <div className="topbar">
       <div className="topbarWarpper">
@@ -20,7 +18,10 @@ export default function Topbar(props) {
             <NotificationsNone />
           </div>
           <div className="topbarIconContainer">
-            <Settings />
+            <a href="/admin/" className="link">
+              {' '}
+              <Settings />
+            </a>
           </div>
           <div className="topbarIconContainer">
             <ExitToApp className="topbarIcon" onClick={doLogout} />

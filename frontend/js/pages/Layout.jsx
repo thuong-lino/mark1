@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { creators } from '../store/customers';
 import { creators as authCreators } from '../store/auth';
 import { Link } from 'react-router-dom';
+import { push } from 'connected-react-router';
 
 import './layout.css';
 import {
@@ -20,16 +21,16 @@ class Layout extends Component {
     this.state = {};
   }
   componentDidMount() {
-    const { getCustomers, doLogout, autoLogin } = this.props;
+    const { getCustomers, autoLogin } = this.props;
     const user = JSON.parse(localStorage.getItem('user'));
     getCustomers(); // common used
     autoLogin(user);
   }
   render() {
-    const { pathname, doLogout } = this.props;
+    const { pathname, doLogout, push } = this.props;
     return (
       <div>
-        <Topbar doLogout={doLogout} />
+        <Topbar doLogout={doLogout} push={push} />
         <div className="container">
           <div className="sidebar">
             <div className="sidebarWrapper">
@@ -91,6 +92,9 @@ const mdtp = (dispatch) => {
     },
     doLogout: () => {
       dispatch(authCreators.doLogout());
+    },
+    push: (path) => {
+      dispatch(push(path));
     },
   };
 };

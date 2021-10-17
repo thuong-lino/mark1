@@ -41,7 +41,6 @@ const DashBoard = () => {
     const orderUp = data.orders_today >= data.orders_yesterday;
     const amountUp = data.amount_today >= data.amount_yesterday;
     const orderMonthUp = data.orders_in_month >= data.orders_in_previous_month;
-    console.log(data.monthly);
     return (
       <>
         <Grid container spacing={2} direction="column">
