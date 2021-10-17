@@ -179,6 +179,7 @@ function AddCustomerDialog(props) {
 
 AddCustomerDialog.propTypes = {
   open: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 export default AddCustomerDialog;

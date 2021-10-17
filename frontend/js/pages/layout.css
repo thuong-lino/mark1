@@ -192,3 +192,12 @@
 .stinks {
   color: rgb(189, 0, 0);
 }
+.customersHeader {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 2.2rem;
+}
+.total_order {
+  text-align: center !important;
+}

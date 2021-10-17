@@ -96,7 +96,7 @@ function OrderTable() {
   // On current Period Change
   useEffect(() => {
     dispatch(creators.getOrders(currentPeriod));
-  }, [currentPeriod]);
+  }, [currentPeriod, dispatch]);
 
   const onChangeCurrentPeriod = (selectedPeriod) => {
     setCurrentPeriod(selectedPeriod);

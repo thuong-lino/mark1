@@ -13,8 +13,6 @@ import Statements from '../pages/Statements';
 const BaseRouter = () => (
   <Hoc>
     <Route exact path="/" component={DashBoard} />
-    <Route component={Customers} path="/customers" />
-    <Route component={CustomersDetails} path="/customers/:id" />
     <Route component={DailyTransaction} path="/daily" />
     <Route component={Statements} path="/statements" />
     <Switch>
