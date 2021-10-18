@@ -20,6 +20,7 @@ AUTH_PASSWORD_VALIDATORS = []  # allow easy passwords only on local
 
 INSTALLED_APPS += ['django_extensions', ]
 # Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
 

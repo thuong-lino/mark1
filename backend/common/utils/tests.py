@@ -2,6 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from model_bakery import baker, seq
+from django.core.management import call_command
 
 
 class TestCaseUtils(TestCase):
@@ -23,6 +24,11 @@ class TestCaseUtils(TestCase):
         self.admin_user = Client()
         self.admin_user.login(email=self.admin.email,
                               password=self._user_password)
+        # =============================================
+        # add some currency rate to test
+        baker.make('customers.API_KEY', get_link='https://openexchangerates.org/api/latest.json?&base=USD&app_id=',
+                   api_key='ac6dd96593d949e2b0bf55a82dae56a8', title='update_rates')
+        call_command('update_rates')
 
     def reverse(self, name, *args, **kwargs):
         """ Reverse a url, convenience to avoid having to import reverse in tests """

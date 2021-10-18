@@ -67,10 +67,6 @@ class Login extends React.Component {
               onChange={this.handleChange}
               value={password}
             />
-            <FormControlLabel
-              control={<Checkbox name="checkedB" color="primary" />}
-              label="Remember me"
-            />
             <Button
               onClick={this.handleSubmit}
               color="primary"
@@ -80,13 +76,6 @@ class Login extends React.Component {
             >
               Sign in
             </Button>
-            <Typography>
-              <Link href="#">Forgot password ?</Link>
-            </Typography>
-            <Typography>
-              {' '}
-              Do you have an account ?<Link href="#">Sign Up</Link>
-            </Typography>
           </Paper>
         </Grid>
       </>

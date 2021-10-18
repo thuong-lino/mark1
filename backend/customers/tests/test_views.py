@@ -7,7 +7,7 @@ class TestCustomersViews(TestCaseUtils):
         customer = self.prepare_customers()[0]
         self.customer_add_orders(10, customer)
         payload = {
-            "customer": customer.id,
+            "customer_id": customer.id,
             "amount": 5,
             "currency": "USD"
         }
@@ -17,12 +17,15 @@ class TestCustomersViews(TestCaseUtils):
 
     def test_add_transactions(self):
         customer = self.prepare_customers()[0]
+        print(customer)
         orders = self.customer_add_orders(10, customer)
         payload = {
-            "customer": customer.id,
+            "customer_id": customer.id,
             "amount": 5,
             "currency": "USD"
         }
         url = self.reverse("add_transaction")
         res = self.admin_user.post(url, payload, format='json')
+        import pdb
+        pdb.set_trace()
         self.assertEqual(res.status_code, 201)

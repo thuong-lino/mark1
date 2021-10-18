@@ -69,5 +69,5 @@ def orders_in_month():
     dt = now()
     first_day_in_month = dt.replace(day=1)
     qs = Order.objects.extra(select={'day': 'date( date_sent )'}).values(
-        'day').annotate(total_order=Count('date_sent')).filter(date_sent__gte=first_day_in_month)
+        'day').order_by('day').annotate(total_order=Count('date_sent')).filter(date_sent__gte=first_day_in_month)
     return qs
