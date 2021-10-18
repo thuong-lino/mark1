@@ -4,17 +4,8 @@ import { connect } from 'react-redux';
 import { creators } from '../store/customers';
 import { creators as authCreators } from '../store/auth';
 import { Link } from 'react-router-dom';
-import { push } from 'connected-react-router';
-
 import './layout.css';
-import {
-  Description,
-  Equalizer,
-  PermIdentity,
-  ShoppingCart,
-  Today,
-  TrendingUp,
-} from '@material-ui/icons';
+import { Description, Equalizer, PermIdentity, ShoppingCart, Today } from '@material-ui/icons';
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +21,7 @@ class Layout extends Component {
     const { pathname, doLogout, push } = this.props;
     return (
       <div>
-        <Topbar doLogout={doLogout} push={push} />
+        <Topbar doLogout={doLogout} />
         <div className="container">
           <div className="sidebar">
             <div className="sidebarWrapper">
@@ -63,14 +54,19 @@ class Layout extends Component {
                     Khách hàng
                   </li>
                 </Link>
-                <li className={`sidebarListItem ${pathname == '/analyst/' ? 'active' : ''}`}>
-                  <TrendingUp className="sidebarIcon" />
-                  Phân tích
-                </li>
               </ul>
             </div>
           </div>
           <div className="mainPage">{this.props.children}</div>
+        </div>
+        <div className="footer">
+          <div>
+            lấy mã để đổi đơn vị tiền (API KEY) :{' '}
+            <a href="https://openexchangerates.org/">https://openexchangerates.org/ </a>
+          </div>
+          <div>
+            Email liên hệ: <a href="#">n.h.thuong1701@gmail.com </a>
+          </div>
         </div>
       </div>
     );
@@ -92,9 +88,6 @@ const mdtp = (dispatch) => {
     },
     doLogout: () => {
       dispatch(authCreators.doLogout());
-    },
-    push: (path) => {
-      dispatch(push(path));
     },
   };
 };

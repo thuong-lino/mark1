@@ -15,8 +15,12 @@ class Command(BaseCommand):
             rates = rate.json()["rates"]
             TWOPLACES = Decimal(10) ** -2
             for currency, rate in rates.items():
-                CurrencyRates.objects.update_or_create(
-                    currency=currency, rate=Decimal(rate).quantize(TWOPLACES))
+                obj = CurrencyRates.objects.filter(currency=currency)
+                if not obj.exists():
+                    CurrencyRates.objects.create(
+                        currency=currency, rate=Decimal(rate).quantize(TWOPLACES))
+                else:
+                    obj.update(rate=rate)
             self.stdout.write(self.style.SUCCESS("Updated Currency Rates"))
         else:
             self.stdout.write(self.style.ERROR("Invalid API KEY"))

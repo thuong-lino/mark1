@@ -25,7 +25,5 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls'), name='rest_auth'),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path("api/", include(router.urls), name="api"),
-    path('favicon.ico', RedirectView.as_view(
-        url=staticfiles_storage.url('assets/images/favicon.ico')))
 
 ]

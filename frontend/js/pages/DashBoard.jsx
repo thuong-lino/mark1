@@ -5,8 +5,8 @@ import { useSnackbar } from 'notistack';
 // mui
 import { CircularProgress, Grid, Paper, Typography } from '@material-ui/core';
 import {
-  ArrowDownward,
-  ArrowUpward,
+  TrendingDown,
+  TrendingUp,
   AttachMoney,
   ShoppingCart,
   ShopTwoOutlined,
@@ -64,7 +64,7 @@ const DashBoard = () => {
                       <Typography component="span" variant="body1">
                         {data.order_rate}%
                       </Typography>
-                      {orderUp ? <ArrowUpward /> : <ArrowDownward />}
+                      {orderUp ? <TrendingUp /> : <TrendingDown />}
                     </div>
                     <Typography component="span" variant="overline">
                       Số đơn hôm qua: {<strong>{data.orders_yesterday} </strong>}
@@ -90,7 +90,7 @@ const DashBoard = () => {
                       <Typography component="span" variant="body1">
                         {data.amount_rate}%
                       </Typography>
-                      {amountUp ? <ArrowUpward /> : <ArrowDownward />}
+                      {amountUp ? <TrendingUp /> : <TrendingDown />}
                     </div>
                     <Typography component="span" variant="overline">
                       Tổng tiền hôm qua:{' '}
@@ -117,7 +117,7 @@ const DashBoard = () => {
                       <Typography component="span" variant="body1">
                         {data.order_month_rate}%
                       </Typography>
-                      {orderMonthUp ? <ArrowUpward /> : <ArrowDownward />}
+                      {orderMonthUp ? <TrendingUp /> : <TrendingDown />}
                     </div>
                     <Typography component="span" variant="overline">
                       Số đơn tháng trước: {<strong>{data.orders_in_previous_month} </strong>}

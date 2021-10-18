@@ -33,3 +33,9 @@ class UpdatePaymentSerializer(serializers.ModelSerializer):
         else:
             raise serializers.ValidationError({"msg": "Invalid Data"})
         return data
+
+
+class CurrencyRatesSerializer(serializers.Serializer):
+    VND = serializers.DecimalField(max_digits=10, decimal_places=2)
+    GBP = serializers.DecimalField(max_digits=10, decimal_places=2)
+    EUR = serializers.DecimalField(max_digits=10, decimal_places=2)

@@ -205,3 +205,6 @@
   display: flex;
   justify-content: flex-start;
 }
+.footer {
+  font-size: 0.8rem;
+}
