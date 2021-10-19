@@ -11,7 +11,7 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    DOB = serializers.DateField(input_formats=['%d/%m/%Y'], required=False)
+    DOB = serializers.DateField(required=False)
 
     class Meta:
         model = Customer

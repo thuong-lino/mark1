@@ -15,7 +15,8 @@ class CustomerViewSet(viewsets.ModelViewSet):
     pagination_class = None
 
     def list(self, request, *args, **kwargs):
-        qs = Customer.objects.annotate(total_order=Count('order'))
+        qs = Customer.objects.annotate(total_order=Count(
+            'order')).order_by('-id')
         serializer = CustomerListSerializer(qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

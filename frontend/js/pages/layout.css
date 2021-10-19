@@ -84,7 +84,7 @@
 .topbarIconContainer {
   position: relative;
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 20px;
   color: gray;
 }
 .topbarIcon:hover {
@@ -207,4 +207,8 @@
 }
 .footer {
   font-size: 0.8rem;
+}
+.footer {
+  position: fixed;
+  bottom: 0px;
 }

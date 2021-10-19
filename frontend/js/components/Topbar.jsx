@@ -24,7 +24,7 @@ export default function Topbar(props) {
   };
   const fetchData = async () => {
     try {
-      const res = await api.get('api/payments/currency_rates');
+      const res = await api.get('/api/payments/currency_rates/');
       const data = res.data;
       setVND(data.VND);
       setEUR(data.EUR);
@@ -36,7 +36,7 @@ export default function Topbar(props) {
   const updateRates = async () => {
     try {
       setUpdating(true);
-      await api.post('api/payments/update_rates/');
+      await api.post('/api/payments/update_rates/');
       setUpdating(false);
       enqueueSnackbar('Cập nhật thành công !', { variant: 'success' });
     } catch (error) {
@@ -48,8 +48,9 @@ export default function Topbar(props) {
   useEffect(() => {
     fetchData();
   }, []);
-  const updateRatesClicked = () => {
-    updateRates();
+  const updateRatesClicked = async () => {
+    await updateRates();
+    fetchData();
   };
 
   const open = Boolean(anchorEl);

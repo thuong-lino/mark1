@@ -50,7 +50,8 @@ const Customers = () => {
     const fetchCustomerList = async () => {
       try {
         const res = await api.get('/api/customers/');
-        setData(res.data);
+        const orderedData = res.data.sort((a, b) => b.total_order - a.total_order);
+        setData(orderedData);
       } catch (error) {
         console.log(error);
       }
